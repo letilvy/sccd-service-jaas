@@ -1,0 +1,4 @@
+{
+	"name": "sccd-service",
+	"main": "./lib/main.js"
+}
