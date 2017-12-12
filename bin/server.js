@@ -1,12 +1,12 @@
 #!/usr/bin/node
 
-var http = require("http");
-var db = require("mysql");
+var HTTP = require("http");
+var DB = require("../lib/db");
 
-var oServer = http.createServer(function(request, response){
+var oServer = HTTP.createServer(function(request, response){
     var sUrl = request.url;
     
-    response.writeHead(200, http.STATUS_CODES[200], {
+    response.writeHead(200, HTTP.STATUS_CODES[200], {
         'Content-Type': 'text/plain'
     });
 
@@ -15,17 +15,19 @@ var oServer = http.createServer(function(request, response){
     });
 
     request.on("end", function(){
-        var oConn = db.createConnection({
-            host: "localhost",
-            user: "guest",
-            password: "guest",
-            port: "3306",
-            database: "i306293"
-        });
+        var oDB = new DB({name: "i306293"});
 
-        oConn.connect();
+        // var oConn = db.createConnection({
+        //     host: "localhost",
+        //     user: "guest",
+        //     password: "guest",
+        //     port: "3306",
+        //     database: "i306293"
+        // });
 
-        oConn.query("select * from user", function(oError, aResult){
+        oDB.connect();
+
+        oDB.query("select * from user", function(oError, aResult){
             if(oError){
                 console.log("[Database error] - ", oError.message); //write header instead
                 return;
@@ -40,6 +42,6 @@ var oServer = http.createServer(function(request, response){
             }
         });
 
-        oConn.end();
+        oDB.close();
     });
 }).listen(1918);
