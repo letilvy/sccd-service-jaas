@@ -2,15 +2,21 @@
 
 //var Http = require("http");
 var Http = require("https");
-var Kpi = require("../lib/kpi");
+var Project = require("../lib/project");
 //var ODataModel = require("https://sapui5.hana.ondemand.com/resources/sap/ui/model/odata/v2/ODataModel.js"); 
 
-console.log("Pass case:" + Kpi.kpi.CaseStatus().pass);
+var oProject  = new Project({
+	workSpace: "../data/B1 SMP PUM"
+});
+
+oProject.getProjectId().then(function(sId){
+	console.log("XC: " + sId);
+});
 
 /* 
  * Test http request to I7D
 */
-var fnResponse = function(oResponse){
+/*var fnResponse = function(oResponse){
 	console.log("Status Code: " + oResponse.statusCode + "\n");
 	console.log("Headers: " + oResponse.headers);
 
@@ -28,10 +34,10 @@ var fnResponse = function(oResponse){
 		vBody = Buffer.concat(vBody);
 		console.log(vBody.toString());
 	});
-};
+};*/
 
 //Way 1
-var options = {
+/*var options = {
 	hostname: "i7d.wdf.sap.corp",
 	port: 443,
 	path: "/odata/sbou/ContacterSet('0006269256')",
@@ -42,15 +48,15 @@ var options = {
 	}
 }; 
 
-var oRequest = Http.request(options, fnResponse);
+var oRequest = Http.request(options, fnResponse);*/
 
 //oRequest.write("request body data");
 
-oRequest.on("error", function(oError){
+/*oRequest.on("error", function(oError){
 	console.error(oError);
 });
 
-oRequest.end();
+oRequest.end();*/
 
 //Way 2
 //Http.get("https://i7d.wdf.sap.corp:443/odata/sbou/ContacterSet('0006269256')", fnResponse);
