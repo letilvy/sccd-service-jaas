@@ -1,3 +1,5 @@
+//OPA Test	Passed: 32 test(s)	Failed: 2 test(s)	Skipped: 0 test(s)	Total: 34 test(s)
+
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="http://localhost:41009/sap.b1.smp.pum/test-resources/integration/indexOpa.qunit.html?responderOn=true" hostname="localhost" tests="39" failures="2" errors="0" time="99.371" timestamp="2017-12-15T01:36:59Z">
 <testsuite id="0" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.S-user Navigation - Normal Mode" hostname="localhost" tests="21" failures="2" errors="0" time="61.566" timestamp="2017-12-15T01:36:59Z">

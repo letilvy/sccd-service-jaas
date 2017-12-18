@@ -1,3 +1,5 @@
+//Unit Test	Passed: 226 test(s)	Failed: 0 test(s)	Skipped: 0 test(s)	Total: 226 test(s)
+
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="http://localhost:41009/sap.b1.smp.pum/test-resources/unit/indexUnit.qunit.html?responderOn=true" hostname="localhost" tests="544" failures="0" errors="0" time="17.527" timestamp="2017-12-15T01:36:37Z">
 <testsuite id="0" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.Formatter Unit Test" hostname="localhost" tests="19" failures="0" errors="0" time="0.011" timestamp="2017-12-15T01:36:37Z">

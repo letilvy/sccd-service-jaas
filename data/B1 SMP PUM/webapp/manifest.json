@@ -1,0 +1,177 @@
+{
+	"_version": "1.1.0",
+	
+	"sap.app": {
+		"id": "sap.b1.smp.pum",
+		"type": "application",
+		"i18n": "i18n/messageBundle.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"resources": "resources.json",
+		"ach": "ach",
+		"applicationVersion": {
+			"version": "${project.version}"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/odata/sbou/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+	
+	"sap.fiori": {
+		"registrationIds": [ "F0000" ],
+		"archeType": "transactional"
+	},
+	
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://key-user-settings",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+	
+	"sap.ui5": {
+		"resources": {
+            "css": [{
+                "uri": "css/style.css",
+                "id": "css_pum"
+            }]
+        },
+		"rootView": {
+			"viewName": "sap.b1.smp.pum.view.App",
+			"type": "JS"
+		}, 
+		"dependencies": {
+			"minUI5Version": "1.34.1",
+			"libs": {
+				"sap.ui.core": {
+					"minVersion": "1.34.1"
+				},
+				"sap.m": {
+					"minVersion": "1.34.1"
+				},
+				"sap.ui.layout": {
+					"minVersion": "1.34.1"
+				},
+				"sap.suite.ui.commons": {
+					"minVersion": "1.34.1"
+				},
+				"sap.suite.ui.microchart": {
+					"minVersion": "1.34.1"
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"": {
+				"dataSource": "mainService",
+				"settings": {
+					"defaultCountMode": "Inline"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "JS",
+				"viewPath": "sap.b1.smp.pum.view",
+				"controlId": "splitapp",
+				"transition": "slide",
+				"bypassed": {
+					"target": ["homeView" , "notFoundView"]
+				}
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "home",
+					"target": "homeView"
+				},{
+					"pattern": "customer/:custId:",
+					"name": "customer",
+					"target": "customerView"
+				},{
+					"pattern": "customer/{custId}/person/{personId}",
+					"name": "person",
+					"target": ["customerView", "personView"]
+				},{
+					"pattern": "person/{personId}",
+					"name": "searchPerson",
+					"target": ["homeView", "personView"]
+				},{
+					"pattern": "personEdit/{id}",
+					"name": "personEdit",
+					"target": "personEditView"
+				},{
+					"pattern": "password/:id:",
+					"name": "password",
+					"target": "passwordView"
+				},{
+					"pattern": "batch/:tab:",
+					"name": "batch",
+					"target": "batchView"
+				}
+			],
+			"targets": {
+				"customerView": {
+					"viewName": "Customer",
+					"viewLevel": 1,
+					"controlAggregation": "detailPages"
+				},
+				"personView": {
+					"viewName": "Person",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"personEditView": {
+					"viewName": "PersonEdit",
+					"viewLevel": 3,
+					"controlAggregation": "detailPages"
+				},
+				"passwordView": {
+					"viewName": "Password",
+					"viewLevel": 3,
+					"controlAggregation": "detailPages"
+				},
+				"batchView": {
+					"viewName": "Batch",
+					"viewLevel": 1,
+					"controlAggregation": "detailPages"
+				},
+				"notFoundView": {
+					"viewName": "NotFound",
+					"viewLevel": 2,
+					"controlAggregation": "detailPages"
+				},
+				"homeView": {
+					"viewName": "Home",
+					"viewLevel": 0,
+					"controlAggregation": "masterPages"
+				}
+			}
+		}
+	}
+}
