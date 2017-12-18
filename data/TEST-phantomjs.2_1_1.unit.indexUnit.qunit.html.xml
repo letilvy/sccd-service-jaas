@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="http://localhost:41009/sap.b1.smp.pum/test-resources/unit/indexUnit.qunit.html?responderOn=true" hostname="localhost" tests="544" failures="0" errors="0" time="17.527" timestamp="2017-12-15T01:36:37Z">
+<testsuite id="0" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.Formatter Unit Test" hostname="localhost" tests="19" failures="0" errors="0" time="0.011" timestamp="2017-12-15T01:36:37Z">
+<testcase name="Empty value should be translated to empty string" tests="1" failures="0" errors="0" time="0.002" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Ö should be translated to OE" tests="1" failures="0" errors="0" time="0.001" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="ß should be translated to SS" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="&apos;SÄP and säp&apos; should be both translated to &apos;SAEP and sAEp&apos;" tests="1" failures="0" errors="0" time="0.001" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="User with separated first name &apos;SAP&apos; and last name &apos;User&apos; should display &apos;SAP User&apos;" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="User without separated first name and last name should display full name" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty phone number with empty country code should display empty string" tests="1" failures="0" errors="0" time="0.001" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty phone number with valid country code &apos;+0086&apos; should display empty string" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Valid phone number &apos;2180373161&apos; with valid country code &apos;+0086&apos; should display &apos;+0086 2180373161&apos;" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Undefined partner number should display empty string" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty partner number should display empty string" tests="1" failures="0" errors="0" time="0.001" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Input partner number &apos;0015063060&apos; should display &apos;S0015063060&apos;" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Input partner number &apos;S0015063060&apos; should display &apos;S0015063060&apos;" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty authorization object should be encoded as empty string" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Authorization {A01: &apos;0006266655:&apos;, A05: &apos;0020258636:0020258639:&apos;, A07: &apos;D&apos;} should be encoded as A01-0006266655:|A05-0020258636:0020258639:|A07-D|" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty item &apos;A05 &apos;in authorization object {A01: &apos;0006266655:&apos;, A05: &apos;&apos;, A07: &apos;D&apos;} should be dropped during encode" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty authorization string should be decoded as empty object" tests="1" failures="0" errors="0" time="0.001" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Authorization string &apos;A01-0006266655:|A05-0020258636:0020258639:|A07-D|&apos; should be decoded as {A01: &apos;0006266655:&apos;, A05: &apos;0020258636:0020258639:&apos;, A07: &apos;D&apos;}" tests="1" failures="0" errors="0" time="0" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="Empty item &apos;A01 &apos;in authorization string &apos;A01|A05-0020258636:0020258639:|A07-D|&apos; should be dropped during decode" tests="1" failures="0" errors="0" time="0.001" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+</testsuite>
+<testsuite id="1" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.TableEx Unit Test" hostname="localhost" tests="32" failures="0" errors="0" time="1.184" timestamp="2017-12-15T01:36:37Z">
+<testcase name="The initial table should only has 2 visible items when growing threshold is 2" tests="1" failures="0" errors="0" time="0.754" timestamp="2017-12-15T01:36:37Z">
+</testcase>
+<testcase name="The initial &apos;SelectedPaths&apos; should be an empty array when there is no default selected item" tests="1" failures="0" errors="0" time="0.019" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="&apos;SelectedPaths&apos; should has 5 elements if Select All Checkbox of table was selected by user click" tests="1" failures="0" errors="0" time="0.016" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Element of &apos;SelectedPaths&apos; should match pattern &apos;//[0-9]+/&apos;" tests="1" failures="0" errors="0" time="0.017" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Hidden items will also be marked as selected on UI if Select All Checkbox of table was selected by user click" tests="1" failures="0" errors="0" time="0.081" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="&apos;SelectedPaths&apos; should has 0 element if status of Select All Checkbox was changed from selected to unselected by user click" tests="1" failures="0" errors="0" time="0.014" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Hidden items will also be marked as unselected on UI if status of Select All Checkbox was changed from selected to unselected by user click" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Select action of Select All Checkbox only takes effect on filtered result when filter applied on table" tests="6" failures="0" errors="0" time="0.063" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Deselect action of Select All Checkbox only takes effect on filtered result when filter applied on table" tests="4" failures="0" errors="0" time="0.073" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Selected status of Select All Checkbox only depends on filtered result items&apos; selected status when filter applied on table" tests="4" failures="0" errors="0" time="0.044" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Unselected status of Select All Checkbox only depends on filtered result items&apos; selected status when filter applied on table" tests="5" failures="0" errors="0" time="0.021" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Method &apos;selectAll&apos; of TableEx control still only take effect on visible items" tests="3" failures="0" errors="0" time="0.023" timestamp="2017-12-15T01:36:38Z">
+</testcase>
+<testcase name="Method &apos;removeSelections&apos; of TableEx control still only take effect on visible items" tests="3" failures="0" errors="0" time="0.024" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+</testsuite>
+<testsuite id="2" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.Template Unit Test" hostname="localhost" tests="84" failures="0" errors="0" time="2.522" timestamp="2017-12-15T01:36:39Z">
+<testcase name="&apos;custEnabledFlag&apos; should provide binding value false if customer id field of &apos;user&apos; model is empty" tests="1" failures="0" errors="0" time="0.05" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;custEnabledFlag&apos; should provide binding value true if customer id field of &apos;user&apos; model is NOT empty" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;tableMode&apos; should provide binding value &apos;ModeSelect&apos; if logon user has write authorization" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;tableMode&apos; should provide binding value &apos;None&apos; if logon user has NO write authorization" tests="1" failures="0" errors="0" time="0.037" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;showForRegularUser&apos; should provide binding value false if current person is NOT a user" tests="1" failures="0" errors="0" time="0.039" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;showForRegularUser&apos; should provide binding value true if current person is a regular user" tests="1" failures="0" errors="0" time="0.047" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;showForRegularUser&apos; should provide binding value false if current person is a technical user" tests="1" failures="0" errors="0" time="0.042" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;showForRegularUser&apos; should provide false even if current person is a regular user when check authorization flag was set and logon user had NO write authorization" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;showForRegularUser&apos; should provide true if current person is a regular user when check authorization flag was set and logon user had write authorization" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleForRegularUserCreate(true)&apos; should provide binding value true if current edit mode is creating a regular user" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleForRegularUserCreate(true)&apos; should provide binding value false if current edit mode is creating a technical user" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleForRegularUserCreate(true)&apos; should provide binding value false if current edit mode is updating a regular user" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleForRegularUserCreate(false)&apos; should provide binding value false if current edit mode is creating a regular user" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleForRegularUserCreate(false)&apos; should provide binding value true if current edit mode is creating a technical user" tests="1" failures="0" errors="0" time="0.048" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleForRegularUserCreate(false)&apos; should provide binding value true if current edit mode is updating a non-user" tests="1" failures="0" errors="0" time="0.053" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="S-ID should be visible when update data of a user" tests="1" failures="0" errors="0" time="0.045" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="S-ID should be invisible when update data of a contact person" tests="1" failures="0" errors="0" time="0.044" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="S-ID should be invisible under creation mode" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="S-ID should be invisible under batch mode" tests="2" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;hideInReqIdOrBatchListMode&apos; should provide binding value false if current edit mode is requesting ID for contact person" tests="1" failures="0" errors="0" time="0.038" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;hideInReqIdOrBatchListMode&apos; should provide binding value false under batch list mode" tests="2" failures="0" errors="0" time="0.077" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;hideInReqIdOrBatchListMode&apos; should provide binding value true if current edit mode is user creating" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;hideInReqIdOrBatchListMode&apos; should provide binding value false under batch template mode" tests="2" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleInBatchMode(true)&apos; should provide binding value true under batch mode" tests="4" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:39Z">
+</testcase>
+<testcase name="&apos;visibleInBatchMode(true)&apos; should provide binding value false under update mode" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleInBatchMode(false)&apos; should provide binding value false under batch mode" tests="4" failures="0" errors="0" time="0.037" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleInBatchMode(false)&apos; should provide binding value true under update mode" tests="1" failures="0" errors="0" time="0.043" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleInBatchListMode(true)&apos; should provide binding value true under batch list mode" tests="2" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleInBatchListMode(true)&apos; should provide binding value false under non batch list mode" tests="3" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleInBatchListMode(false)&apos; should provide binding value false under batch list mode" tests="2" failures="0" errors="0" time="0.038" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleInBatchListMode(false)&apos; should provide binding value true under non batch list mode" tests="3" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleWhenMultiItems&apos; should provide binding value false if binding model is empty" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleWhenMultiItems&apos; should provide binding value false if binding model has only one element" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="&apos;visibleWhenMultiItems&apos; should provide binding value true if binding model has more than one element" tests="1" failures="0" errors="0" time="0.042" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Width of batch table search field should be 50% on phone device" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Width of batch table search field should be 25% on non-phone device" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Authorization table should be visible under regular user creation mode" tests="1" failures="0" errors="0" time="0.037" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Authorization table should be invisible under technical user creation mode" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Authorization table should be visible under regular user update mode" tests="1" failures="0" errors="0" time="0.042" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Authorization table should be invisible under technical user update mode" tests="1" failures="0" errors="0" time="0.044" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Authorization table should be visible when request user ID for contact person" tests="1" failures="0" errors="0" time="0.045" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value 0 if binding model is empty" tests="1" failures="0" errors="0" time="0.041" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value 0 if binding model data is an object rather than an array" tests="1" failures="0" errors="0" time="0.037" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value &apos;false&apos; if binding model data is an object rather than an array and expected boolean result" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide length of binding model data if it is an array" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value &apos;true&apos; if binding model data it is an un-empty array and expected boolean result" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide length of filtered array if binding model data is an array and filters applied on it" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value &apos;false&apos; if binding model data is an array and filters applied on it and filtered result is empty" tests="1" failures="0" errors="0" time="0.052" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value &apos;User&apos; when current person is a regular user" tests="1" failures="0" errors="0" time="0.039" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Technical User&apos; when current person is a technical user" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:40Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Contact Person&apos; when current person is not a user" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Active&apos;(expected status text) or &apos;Success&apos;(expect status type enum) if it is an activated technical user" tests="2" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Inactive&apos;(expected status text) or &apos;Error&apos;(expect status type enum) if it is an inactivated technical user" tests="2" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Authorized&apos;(expected status text) or &apos;Error&apos;(expect status type enum) if it is an authorized non technical user" tests="2" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Not Authorized&apos;(expected status text) or &apos;Error&apos;(expect status type enum) if it is a not authorized non technical user" tests="2" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Authorized&apos; if the authorized flag is &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Not Authorized&apos; if the authorized flag is NOT &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.039" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Success&apos;(status type enum value) if the authorized flag is &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.047" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Error&apos;(status type enum value) if the authorized flag is NOT &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Active&apos; if the activated flag is &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Inactive&apos; if the activated flag is NOT &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Success&apos;(status type enum value) if the activated flag is &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.053" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Error&apos;(status type enum value) if the activated flag is NOT &apos;Y&apos;" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;Success&apos;(status type enum value) if passes the password rule" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Should provide binding value &apos;None&apos;(status type enum value) if fails to pass the password rule" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+</testsuite>
+<testsuite id="3" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.Template (Authorization Objects Table) Unit Test" hostname="localhost" tests="74" failures="0" errors="0" time="2.645" timestamp="2017-12-15T01:36:41Z">
+<testcase name="Default model host should be root view" tests="1" failures="0" errors="0" time="0.084" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Header of the table should only display the title &apos;Authorization Objects&apos; in authorization objects list" tests="4" failures="0" errors="0" time="0.47" timestamp="2017-12-15T01:36:41Z">
+</testcase>
+<testcase name="Authorization object which need to be applied with user or installation should be navigable" tests="4" failures="0" errors="0" time="0.071" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Expand authorization object which need to be applied with user will get the user list" tests="4" failures="0" errors="0" time="0.087" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Expand authorization object which need to be applied with installation will get the installation list" tests="3" failures="0" errors="0" time="0.077" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Table header should display &apos;Back to Authorization Objects &gt; Edit Authorizations&apos; when expand the &apos;Edit Authorizations&apos; object" tests="6" failures="0" errors="0" time="0.082" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Click &apos;Back to Authorization Objects&apos; will navigate back to authorization objects list" tests="3" failures="0" errors="0" time="0.094" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Customer level assignment checkbox should be visible in user list and installation list" tests="6" failures="0" errors="0" time="0.113" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Select all checkbox should be visible in user list and installation list only under edit mode" tests="6" failures="0" errors="0" time="0.2" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="Table should be in MultiSelect mode but be disabled for select in display mode" tests="7" failures="0" errors="0" time="0.111" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="In edit mode and no foreign installation exist, except authorization object which need to be applied with user or installation, checkbox should be selectable" tests="8" failures="0" errors="0" time="0.129" timestamp="2017-12-15T01:36:42Z">
+</testcase>
+<testcase name="In edit mode but foreign installation exist, foreign installation and select all checkbox for installation list should be un-selectable besides authorization object which need to be applied with user or installation" tests="3" failures="0" errors="0" time="0.097" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Object &apos;Edit Authorizations&apos; and user &apos;0003287662&apos; and &apos;0014300277&apos; will all be selected if authorization property of person model contains &apos;A01: 0003287662:0014300277:&apos;}" tests="3" failures="0" errors="0" time="0.083" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Name of key property for user list binding should be &apos;ParNumber&apos;" tests="3" failures="0" errors="0" time="0.067" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Object &apos;Edit System Data&apos; and customer level assignment checkbox will both be selected if authorization property of person model contains &apos;A02: D:&apos;}" tests="2" failures="0" errors="0" time="0.073" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Object &apos;Edit User Data&apos; will be selected if authorization property of person model contains &apos;A07: D&apos;}" tests="1" failures="0" errors="0" time="0.062" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Authorization should be {A01: &apos;0014300277:&apos;, A02: &apos;0020131907:0020158368:&apos;} if select user &apos;0003287662&apos; for &apos;Edit Authorizations&apos; and installations &apos;0020131907&apos; and &apos;0020158368&apos; for &apos;Edit System Data&apos;" tests="1" failures="0" errors="0" time="0.171" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Should add &apos;D:&apos; to corresponding object authorization when select its customer level assignment checkbox" tests="1" failures="0" errors="0" time="0.142" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Should set authorization &apos;D&apos; for object which DON&apos;T need to be applied with user or installation when select it" tests="1" failures="0" errors="0" time="0.073" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Should remove corresponding authorization when unselect authorization items" tests="1" failures="0" errors="0" time="0.173" timestamp="2017-12-15T01:36:43Z">
+</testcase>
+<testcase name="Should call the change callback function when selection change happens on table" tests="6" failures="0" errors="0" time="0.182" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+</testsuite>
+<testsuite id="4" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.Tool Unit Test" hostname="localhost" tests="84" failures="0" errors="0" time="2.456" timestamp="2017-12-15T01:36:44Z">
+<testcase name="Should return null if reponse does not contain &apos;message&apos; object" tests="1" failures="0" errors="0" time="0.037" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return &apos;Activate technical user failed.&apos; if reponse contains this message within its &apos;message&apos; object" tests="1" failures="0" errors="0" time="0.039" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="The title of error message box should be &apos;Error&apos;" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Responsed odata error message should be parsed with corresponding message text in message bundle before display if it is an error code" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Responsed odata error message should be parsed as &apos;Unknown error code XXX.&apos; before display if it is an error code while its text is NOT defined in UI message bundle file" tests="1" failures="0" errors="0" time="0.039" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Responsed odata error message should be displayed without parse if it is already a text" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Content of error message box should be combination of responsed odata error message and diagnosis if they are both not empty" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Content of error message box should be responsed odata error message if only it is not empty" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Content of error message box should be diagnosis information if only it is not empty" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Content of error message box should be &apos;Unknown error.&apos; if both odata error message and diagnosis are empty while i18n model is available" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Content of error message box should be &apos;Unknown error.&apos; if both odata error message and diagnosis are empty while while i18n model is also NOT available" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return false if neither item control nor selected item&apos;s container id was given" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return oItemOfSelect&apos;s binding object whose key=&apos;01&apos; when oItemOfSelect was given" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return false if invalid model name was given" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return oItemOfTable&apos;s binding object whose key=&apos;02&apos; when only its container&apos;s id was given" tests="1" failures="0" errors="0" time="0.141" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return false if container control&apos;s selected item is not available" tests="1" failures="0" errors="0" time="0.042" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return false if there is no available model host" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return false if invalid model name was given " tests="1" failures="0" errors="0" time="0.042" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return {editMode: &apos;DELETE&apos;} if property &apos;editMode&apos; of model was set to &apos;DELETE&apos;" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:44Z">
+</testcase>
+<testcase name="Should return &apos;CREATE&apos; if key name is &apos;editMode&apos;" tests="1" failures="0" errors="0" time="0.044" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should use root view as model host if there is no model host provided" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return null if neither root view is available nor model host is provided" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return null if key is not valid" tests="1" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return null if named model &apos;user&apos; is not available on host provided" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return id of first customer in customer list when value of &apos;cust&apos; is not available in &apos;user&apos; model" tests="1" failures="0" errors="0" time="0.064" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return null when value of &apos;cust&apos; is not available in &apos;user&apos; model and customer list is empty" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return false if customer number is not provided" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should create &apos;authObj&apos; model with sizeLimit=1000 if it does not exist" tests="2" failures="0" errors="0" time="0.043" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should load the authorization object model from &apos;/F4_AuthObjSet/&apos;" tests="1" failures="0" errors="0" time="0.042" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should load installation value help from &apos;/F4_InstSet/&apos; and user value help from &apos;/ContacterSet/&apos;" tests="2" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should show an error MessageBox when load authorization object model fails" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should show an error MessageBox when batch request for installation&amp;user value help data fails" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should show an error MessageBox when any error response returned in batch request for installation&amp;user value help data" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should load authorization object and corresponding installation&amp;user value help data into &apos;authObj&apos; model" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Technical user is not available for authorization object assign" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return false if person id is not provided" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should load person model data using /ContacterSet(&apos;0006268919&apos;) when person id is &apos;0006268919&apos;" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should show an error MessageBox when load person model request fails" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should clear person model data when load person model request fails" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Data of json model &apos;person&apos; should be set with responsed data when load person model request completed successfully" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should set property &apos;CountryTmp&apos; with value of &apos;Country&apos; if &apos;CountryTmp&apos; is empty in the responsed data" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should register person along with check loading of authorization object model when person model was loaded successfully" tests="1" failures="0" errors="0" time="0.037" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should load authorization object model of customer when it does not exist and check model flag is true" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should not load authorization object model of customer even when it does not exist if check model flag is false" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should set customer info into &apos;user&apos; model with input customer" tests="2" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should set user type info into &apos;user&apos; model according to the input person data" tests="4" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:45Z">
+</testcase>
+<testcase name="Should return false if value help model host is not available" tests="1" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should load address form value help from &apos;/F4_AddressFormSet&apos;, language value help from &apos;/F4_LanguageSet&apos; and country value help from &apos;F4_CountrySet&apos;" tests="3" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should show an error MessageBox when batch request for address form&amp;language&amp;country value help data fails" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should show an error MessageBox when any error response returned in batch request for address form&amp;language&amp;country value help data" tests="1" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should load address form&amp;language&amp;country value help data into &apos;vf&apos; model of host" tests="2" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should return false if &apos;requesters&apos; model does not exist" tests="1" failures="0" errors="0" time="0.033" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should return false if customer id is not provided" tests="1" failures="0" errors="0" time="0.05" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should load requester model data (non-count mode) asynchronously in non-batch mode by default" tests="2" failures="0" errors="0" time="0.045" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should query count of existing request synchronously using /RequesterSet/$count?$filter=Payload eq &apos;0000712632&apos; when customer id is &apos;0000712632&apos; and bAsync parameter is &apos;false&apos; in non-batch mode" tests="2" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should load requester model data asynchronously using /RequesterSet/?$filter=Payload eq &apos;0000712632&apos; when customer id is &apos;0000712632&apos; and bAsync parameter is not specified in non-batch mode" tests="2" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should load requester model data asynchronously using /RequesterSet/?$filter=Payload eq &apos;0000712632&apos; and Status eq &apos;T&apos; when customer id is &apos;0000712632&apos; and bAsync parameter is &apos;true&apos; in batch mode" tests="2" failures="0" errors="0" time="0.04" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should mark count of existing request into &apos;user&apos; model without changing &apos;requesters&apos; model&apos;s data when load requester model request completed successfully in count mode" tests="2" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should set data of json model &apos;requester&apos; with responsed data and mark count of existing request when load requester model request completed successfully in non-count mode" tests="2" failures="0" errors="0" time="0.036" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should show an error MessageBox when load requester model data request failed" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should show a success MessageBox when send password change email successfully" tests="2" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should use error handler Tool.fnODataRequestFail when send password change email request fail" tests="1" failures="0" errors="0" time="0.034" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should show an error MessageBox when there is any selected user has no valid email" tests="6" failures="0" errors="0" time="0.035" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+</testsuite>
+<testsuite id="5" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.App View Unit Test - Authorization check fails" hostname="localhost" tests="3" failures="0" errors="0" time="0.444" timestamp="2017-12-15T01:36:46Z">
+<testcase name="App controller instance should be created by default when create the App view instance" tests="1" failures="0" errors="0" time="0.438" timestamp="2017-12-15T01:36:46Z">
+</testcase>
+<testcase name="Should render the app as sap.m.App if authorization check failed" tests="1" failures="0" errors="0" time="0.003" timestamp="2017-12-15T01:36:47Z">
+</testcase>
+<testcase name="Should show the no authorization page if authorization check failed" tests="1" failures="0" errors="0" time="0.003" timestamp="2017-12-15T01:36:47Z">
+</testcase>
+</testsuite>
+<testsuite id="6" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.App View Unit Test - Authorization check success" hostname="localhost" tests="4" failures="0" errors="0" time="0.161" timestamp="2017-12-15T01:36:47Z">
+<testcase name="Should render the app as sap.m.SplitApp with id &apos;splitapp&apos; if authorization check successed" tests="2" failures="0" errors="0" time="0.15" timestamp="2017-12-15T01:36:47Z">
+</testcase>
+<testcase name="Should set SplitApp to &apos;HideMode&apos; when app is launched with batch mode" tests="1" failures="0" errors="0" time="0.006" timestamp="2017-12-15T01:36:47Z">
+</testcase>
+<testcase name="Should set SplitApp to &apos;ShowHideMode&apos; when app is launched with normal mode" tests="1" failures="0" errors="0" time="0.004" timestamp="2017-12-15T01:36:47Z">
+</testcase>
+</testsuite>
+<testsuite id="7" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.unit.indexUnit_qunit_html?responderOn=true.Person Edit View Unit Test" hostname="localhost" tests="244" failures="0" errors="0" time="8.08" timestamp="2017-12-15T01:36:47Z">
+<testcase name="Should register controller&apos;s &apos;loadPerson&apos; method as pattern &apos;personEdit&apos; matched handler" tests="2" failures="0" errors="0" time="1.822" timestamp="2017-12-15T01:36:47Z">
+</testcase>
+<testcase name="Should load the value help model once and set it on the person edit view" tests="2" failures="0" errors="0" time="0.135" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under regular user create mode" tests="15" failures="0" errors="0" time="0.139" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under regular user update mode" tests="16" failures="0" errors="0" time="0.15" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under technical user create mode" tests="17" failures="0" errors="0" time="0.129" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under technical user update mode" tests="17" failures="0" errors="0" time="0.134" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under batch technical user creation template mode" tests="15" failures="0" errors="0" time="0.161" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under batch technical user creation list mode" tests="6" failures="0" errors="0" time="0.229" timestamp="2017-12-15T01:36:49Z">
+</testcase>
+<testcase name="Should display right UI elements under request user ID for contact person" tests="13" failures="0" errors="0" time="0.14" timestamp="2017-12-15T01:36:50Z">
+</testcase>
+<testcase name="Should display right UI elements under contact person update mode" tests="15" failures="0" errors="0" time="0.127" timestamp="2017-12-15T01:36:50Z">
+</testcase>
+<testcase name="Should NOT display &apos;Save&apos; button on footer bar when logon user has no write authorization" tests="1" failures="0" errors="0" time="0.153" timestamp="2017-12-15T01:36:50Z">
+</testcase>
+<testcase name="Page title should be &apos;Unknown Operation&apos; if person number in hash is not start with &apos;c&apos;,&apos;t&apos;,&apos;b&apos;,&apos;r&apos; or &apos;p&apos;" tests="1" failures="0" errors="0" time="0.122" timestamp="2017-12-15T01:36:50Z">
+</testcase>
+<testcase name="Batch template and list modes switch control can switch between template mode and list mode" tests="3" failures="0" errors="0" time="0.184" timestamp="2017-12-15T01:36:50Z">
+</testcase>
+<testcase name="Should display the right data from &apos;person&apos; mode in NONE batch technical user creation list mode" tests="6" failures="0" errors="0" time="0.171" timestamp="2017-12-15T01:36:50Z">
+</testcase>
+<testcase name="User input data should be updated into &apos;person&apos; mode in NONE batch technical user creation list mode" tests="11" failures="0" errors="0" time="0.236" timestamp="2017-12-15T01:36:51Z">
+</testcase>
+<testcase name="Should display the right data from &apos;batchEdit&apos; mode in batch technical user creation list mode" tests="5" failures="0" errors="0" time="0.186" timestamp="2017-12-15T01:36:51Z">
+</testcase>
+<testcase name="User input data should be updated into &apos;batchEdit&apos; mode in batch technical user creation list mode" tests="7" failures="0" errors="0" time="0.278" timestamp="2017-12-15T01:36:51Z">
+</testcase>
+<testcase name="Should set gender as male if it is not specified" tests="1" failures="0" errors="0" time="0.122" timestamp="2017-12-15T01:36:51Z">
+</testcase>
+<testcase name="Should provide default first name &apos;RSP&apos;, default last name &apos;---TECH-USER---&apos; and default email as logon user&apos;s email in technical user creation" tests="3" failures="0" errors="0" time="0.12" timestamp="2017-12-15T01:36:51Z">
+</testcase>
+<testcase name="Should not be able to create a regular user with last name &apos;---TECH-USER---&apos;" tests="2" failures="0" errors="0" time="0.154" timestamp="2017-12-15T01:36:52Z">
+</testcase>
+<testcase name="Should not be able to request user id for a contact person if same request already exist and its status is &apos;In Process&apos;" tests="3" failures="0" errors="0" time="0.189" timestamp="2017-12-15T01:36:52Z">
+</testcase>
+<testcase name="Should create technical user for all customer who has no technical user when route parameter is &apos;bAll&apos;" tests="6" failures="0" errors="0" time="0.198" timestamp="2017-12-15T01:36:52Z">
+</testcase>
+<testcase name="Should not commit the change if mandatory fields are empty and value state of empty items should be set to error under NONE batch technical user creation list mode" tests="6" failures="0" errors="0" time="0.157" timestamp="2017-12-15T01:36:52Z">
+</testcase>
+<testcase name="Should not commit the change if mandatory fields are empty and value state of empty items should be set to error under batch technical user creation list mode" tests="4" failures="0" errors="0" time="0.214" timestamp="2017-12-15T01:36:52Z">
+</testcase>
+<testcase name="Should not commit the change and should show a message toast if there is no selected customer under batch technical user creation mode" tests="2" failures="0" errors="0" time="0.147" timestamp="2017-12-15T01:36:52Z">
+</testcase>
+<testcase name="Should clean error value state of input fields if there is any when load the page" tests="3" failures="0" errors="0" time="0.204" timestamp="2017-12-15T01:36:53Z">
+</testcase>
+<testcase name="Should show a message toast, set auto refresh timer and navigate back to customer page when single regular user has been created successfully" tests="4" failures="0" errors="0" time="0.181" timestamp="2017-12-15T01:36:53Z">
+</testcase>
+<testcase name="Should use error handler Tool.fnODataRequestFail when creating single regular user failed" tests="1" failures="0" errors="0" time="0.131" timestamp="2017-12-15T01:36:53Z">
+</testcase>
+<testcase name="Should show a message box, set auto refresh timer and navigate back to customer page when single technical user has been created successfully" tests="5" failures="0" errors="0" time="0.138" timestamp="2017-12-15T01:36:53Z">
+</testcase>
+<testcase name="Should show a message box, set auto refresh timer and navigate back to batch overview page when technical user batch template created successfully" tests="5" failures="0" errors="0" time="0.158" timestamp="2017-12-15T01:36:53Z">
+</testcase>
+<testcase name="Should show a message box, set auto refresh timer and navigate back to batch overview page when technical user batch list created successfully" tests="5" failures="0" errors="0" time="0.179" timestamp="2017-12-15T01:36:53Z">
+</testcase>
+<testcase name="Should use error handler Tool.fnODataRequestFail when technical user batch creation failed" tests="2" failures="0" errors="0" time="0.166" timestamp="2017-12-15T01:36:54Z">
+</testcase>
+<testcase name="Should show a message box WITHOUT set auto refresh timer and navigate back to person page when regular user has been updated successfully" tests="3" failures="0" errors="0" time="0.228" timestamp="2017-12-15T01:36:54Z">
+</testcase>
+<testcase name="Should show a message toast, set auto refresh timer and navigate back to person page if there is no previous hash when request user id for contact person success" tests="4" failures="0" errors="0" time="0.18" timestamp="2017-12-15T01:36:54Z">
+</testcase>
+<testcase name="Should use error handler Tool.fnODataRequestFail with diagnosis information when request user id for contact person failed" tests="2" failures="0" errors="0" time="0.136" timestamp="2017-12-15T01:36:54Z">
+</testcase>
+<testcase name="Auto refresh timer should not be removed until all requests are displayed in &apos;Requested User&apos; list when user creation success" tests="11" failures="0" errors="0" time="0.158" timestamp="2017-12-15T01:36:54Z">
+</testcase>
+<testcase name="Auto refresh timer should be removed when customer changed under single user creation mode even the new created user has not been loaded into &apos;Requested User&apos; list" tests="6" failures="0" errors="0" time="0.147" timestamp="2017-12-15T01:36:54Z">
+</testcase>
+<testcase name="Old auto refresh timer should be removed before setting new auto refresh timer" tests="12" failures="0" errors="0" time="0.148" timestamp="2017-12-15T01:36:55Z">
+</testcase>
+<testcase name="Should reset update flag and navigate back when click &apos;Cancel&apos; button" tests="2" failures="0" errors="0" time="0.122" timestamp="2017-12-15T01:36:55Z">
+</testcase>
+</testsuite>
+</testsuites>

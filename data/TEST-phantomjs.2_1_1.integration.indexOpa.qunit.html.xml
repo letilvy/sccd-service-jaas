@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="http://localhost:41009/sap.b1.smp.pum/test-resources/integration/indexOpa.qunit.html?responderOn=true" hostname="localhost" tests="39" failures="2" errors="0" time="99.371" timestamp="2017-12-15T01:36:59Z">
+<testsuite id="0" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.S-user Navigation - Normal Mode" hostname="localhost" tests="21" failures="2" errors="0" time="61.566" timestamp="2017-12-15T01:36:59Z">
+<testcase name="Should navigate to customer page when click one entry of customer list on home page" tests="1" failures="0" errors="0" time="3.618" timestamp="2017-12-15T01:36:59Z">
+</testcase>
+<testcase name="Should navigate to regular user creation page when click &apos;Add&apos; button of regular user list header on customer page" tests="1" failures="0" errors="0" time="0.354" timestamp="2017-12-15T01:37:03Z">
+</testcase>
+<testcase name="Should navigate back to customer page when click &apos;Cancel&apos; button in regular user creation page" tests="1" failures="0" errors="0" time="0.889" timestamp="2017-12-15T01:37:03Z">
+</testcase>
+<testcase name="Should navigate to regular user detail display page when user click a entry of regular user list on customer page" tests="1" failures="0" errors="0" time="1.541" timestamp="2017-12-15T01:37:04Z">
+</testcase>
+<testcase name="Should navigate to regular user edit page when click &apos;Edit&apos; button on regular user detail display page" tests="1" failures="0" errors="0" time="0.919" timestamp="2017-12-15T01:37:06Z">
+</testcase>
+<testcase name="Should navigate back to customer page when click back button on regular user detail display page" tests="1" failures="0" errors="0" time="0.896" timestamp="2017-12-15T01:37:06Z">
+</testcase>
+<testcase name="Should navigate to technical user creation page when click &apos;Add&apos; button of technical user list header on customer page" tests="1" failures="0" errors="0" time="2.247" timestamp="2017-12-15T01:37:07Z">
+</testcase>
+<testcase name="Should navigate to technical user activation page when select some technical users and click &apos;Activate&apos; button of technical user list header on customer page" tests="1" failures="0" errors="0" time="1.158" timestamp="2017-12-15T01:37:10Z">
+</testcase>
+<testcase name="Should navigate back to customer page when activate technical users successfully on technical user activation page and confirm the popup message" tests="1" failures="0" errors="0" time="3.529" timestamp="2017-12-15T01:37:11Z">
+</testcase>
+<testcase name="Should navigate to technical user detail display page when user click a entry of technical user list on customer page" tests="1" failures="0" errors="0" time="0.92" timestamp="2017-12-15T01:37:14Z">
+</testcase>
+<testcase name="Should navigate to technical user edit page when click &apos;Edit&apos; button on technical user detail display page" tests="1" failures="0" errors="0" time="0.05" timestamp="2017-12-15T01:37:15Z">
+</testcase>
+<testcase name="Should navigate back to technical user detail display page when click &apos;Save&apos; button on technical user edit page" tests="1" failures="0" errors="0" time="2.906" timestamp="2017-12-15T01:37:15Z">
+</testcase>
+<testcase name="Should navigate to technical user activation page when click &apos;Activate&apos; button on technical user detail display page" tests="1" failures="0" errors="0" time="2.542" timestamp="2017-12-15T01:37:18Z">
+</testcase>
+<testcase name="Should navigate to contact person id request page when click &apos;Request user ID&apos; button within contact person list on customer page" tests="1" failures="0" errors="0" time="2.69" timestamp="2017-12-15T01:37:21Z">
+</testcase>
+<testcase name="Should navigate to contact person detail display page when user click a entry of contact person list on customer page" tests="1" failures="0" errors="0" time="1.333" timestamp="2017-12-15T01:37:23Z">
+</testcase>
+<testcase name="Should navigate to contact person edit page when click &apos;Edit&apos; button on contact person detail display page" tests="1" failures="0" errors="0" time="0.899" timestamp="2017-12-15T01:37:25Z">
+</testcase>
+<testcase name="Should navigate to contact person id request page when click &apos;Request user ID&apos; button on contact person detail display page" tests="1" failures="0" errors="0" time="2.614" timestamp="2017-12-15T01:37:26Z">
+</testcase>
+<testcase name="Should navigate to person detail display page when click search result item on home page" tests="1" failures="1" errors="0" time="16.16" timestamp="2017-12-15T01:37:28Z">
+<failure type="AssertionFailedError" message="Cannot find the table item with id S0016266640
+Opa timeout
+This is what Opa logged:
+The control Element sap.m.ObjectListItem#__item1 is not rendered -  sap.ui.test.matchers.Visible
+all results were filtered out by the matchers - skipping the check -  sap.ui.test.pipelines.MatcherPipeline
+Callstack:
+
+testBody
+run
+
+process
+begin
+" />
+</testcase>
+<testcase name="Should popup a password reset email sent message box without navigation when click &apos;Password&apos; button on regular user detail display page" tests="1" failures="1" errors="0" time="15.326" timestamp="2017-12-15T01:37:44Z">
+<failure type="AssertionFailedError" message="Cannot find the password button on person page
+Opa timeout
+This is what Opa logged:
+The control Element sap.m.Button#btn_single_change_pw is not rendered -  sap.ui.test.matchers.Visible
+all results were filtered out by the matchers - skipping the check -  sap.ui.test.pipelines.MatcherPipeline
+Callstack:
+
+testBody
+run
+
+process
+begin
+" />
+</testcase>
+<testcase name="Should popup a password reset email sent message box without navigation when select some users on regular user list and click &apos;Password&apos; button of its header on customer page" tests="2" failures="0" errors="0" time="0.971" timestamp="2017-12-15T01:38:00Z">
+</testcase>
+<system-out>
+<![CDATA[
+[sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.S-user Navigation - Normal Mode, Should navigate to person detail display page when click search result item on home page, 1] Cannot find the table item with id S0016266640
+Opa timeout
+This is what Opa logged:
+The control Element sap.m.ObjectListItem#__item1 is not rendered -  sap.ui.test.matchers.Visible
+all results were filtered out by the matchers - skipping the check -  sap.ui.test.pipelines.MatcherPipeline
+Callstack:
+
+testBody
+run
+
+process
+begin
+
+Source: 
+fire@http://localhost:41009/sap.b1.smp.pum/resources/sap-ui-core.js:8083:36
+fireWith@http://localhost:41009/sap.b1.smp.pum/resources/sap-ui-core.js:8213:11
+http://localhost:41009/sap.b1.smp.pum/resources/sap-ui-core.js:8312:36
+fnCheck
+fnWrappedCallback
+[sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.S-user Navigation - Normal Mode, Should popup a password reset email sent message box without navigation when click 'Password' button on regular user detail display page, 1] Cannot find the password button on person page
+Opa timeout
+This is what Opa logged:
+The control Element sap.m.Button#btn_single_change_pw is not rendered -  sap.ui.test.matchers.Visible
+all results were filtered out by the matchers - skipping the check -  sap.ui.test.pipelines.MatcherPipeline
+Callstack:
+
+testBody
+run
+
+process
+begin
+
+Source: 
+fire@http://localhost:41009/sap.b1.smp.pum/resources/sap-ui-core.js:8083:36
+fireWith@http://localhost:41009/sap.b1.smp.pum/resources/sap-ui-core.js:8213:11
+http://localhost:41009/sap.b1.smp.pum/resources/sap-ui-core.js:8312:36
+fnCheck
+fnWrappedCallback
+]]>
+</system-out>
+</testsuite>
+<testsuite id="1" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.S-user Navigation - Batch Mode" hostname="localhost" tests="3" failures="0" errors="0" time="5.87" timestamp="2017-12-15T01:38:01Z">
+<testcase name="Should navigate to mass technical user creation page when select some customers and click &apos;Request&apos; button of customer list header on batch page" tests="1" failures="0" errors="0" time="3.072" timestamp="2017-12-15T01:38:01Z">
+</testcase>
+<testcase name="Should switch from template mode to list creation mode when click the switch button on the footer of batch page" tests="1" failures="0" errors="0" time="1.311" timestamp="2017-12-15T01:38:04Z">
+</testcase>
+<testcase name="Should navigate to technical user activation page when select some technical users and click &apos;Activate&apos; button of technical user list header on batch page" tests="1" failures="0" errors="0" time="1.485" timestamp="2017-12-15T01:38:05Z">
+</testcase>
+</testsuite>
+<testsuite id="2" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.I-user Navigation" hostname="localhost" tests="4" failures="0" errors="0" time="8.403" timestamp="2017-12-15T01:38:07Z">
+<testcase name="Should navigate to password change page when select some users on regular user list and click &apos;Password&apos; button of its header on customer page" tests="1" failures="0" errors="0" time="2.16" timestamp="2017-12-15T01:38:07Z">
+</testcase>
+<testcase name="Should show a message toast and navigate back to customer page when change users&apos; password successfully on password change page" tests="2" failures="0" errors="0" time="4.774" timestamp="2017-12-15T01:38:09Z">
+</testcase>
+<testcase name="Should navigate to regular user password change page when click &apos;Password&apos; button on regular user detail display page" tests="1" failures="0" errors="0" time="1.469" timestamp="2017-12-15T01:38:14Z">
+</testcase>
+</testsuite>
+<testsuite id="3" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpa_qunit_html?responderOn=true.Edit Assist" hostname="localhost" tests="11" failures="0" errors="0" time="23.526" timestamp="2017-12-15T01:38:15Z">
+<testcase name="Should show the same authorization object level in the authorization objects table when navigate from person display page to person edit page" tests="1" failures="0" errors="0" time="5.336" timestamp="2017-12-15T01:38:15Z">
+</testcase>
+<testcase name="Should show the authorization objects table with top level when navigate from customer page to regular user creation page" tests="2" failures="0" errors="0" time="1.869" timestamp="2017-12-15T01:38:20Z">
+</testcase>
+<testcase name="Should show popup save reminder when try to navigate to customer page by clicking customer on home page while edit some user data on person edit page" tests="1" failures="0" errors="0" time="3.158" timestamp="2017-12-15T01:38:22Z">
+</testcase>
+<testcase name="Should stay on the current page without navigation when click &apos;Cancel&apos; button on the popup save reminder" tests="1" failures="0" errors="0" time="0.43" timestamp="2017-12-15T01:38:25Z">
+</testcase>
+<testcase name="Should navigate to customer page without saving edit data when click &apos;No&apos; button on the popup save reminder" tests="2" failures="0" errors="0" time="1.779" timestamp="2017-12-15T01:38:26Z">
+</testcase>
+<testcase name="Should navigate to customer page and saving edit data when click &apos;Yes&apos; button on the popup save reminder" tests="2" failures="0" errors="0" time="5.569" timestamp="2017-12-15T01:38:28Z">
+</testcase>
+<testcase name="Should show popup save reminder when try to navigate to customer page by clicking customer on home page while input some data on technical activation page" tests="1" failures="0" errors="0" time="3.608" timestamp="2017-12-15T01:38:33Z">
+</testcase>
+<testcase name="Should navigate to customer page and saving edit data when click &apos;Yes&apos; button on the popup save reminder " tests="1" failures="0" errors="0" time="1.775" timestamp="2017-12-15T01:38:37Z">
+</testcase>
+</testsuite>
+</testsuites>

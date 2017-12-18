@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="http://localhost:41009/sap.b1.smp.pum/test-resources/integration/indexOpaWithGherkin.qunit.html?cust=favor&amp;delay=0&amp;batch=true#/batch" hostname="localhost" tests="6" failures="0" errors="0" time="18.374" timestamp="2017-12-15T01:38:42Z">
+<testsuite id="0" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpaWithGherkin_qunit_html?responderOn=true.Feature: Navigation of S-User" hostname="localhost" tests="5" failures="0" errors="0" time="13.785" timestamp="2017-12-15T01:38:42Z">
+<testcase name="Scenario: Navigation in normal mode" tests="3" failures="0" errors="0" time="8.079" timestamp="2017-12-15T01:38:42Z">
+</testcase>
+<testcase name="Scenario: Navigation in batch mode" tests="2" failures="0" errors="0" time="5.706" timestamp="2017-12-15T01:38:50Z">
+</testcase>
+</testsuite>
+<testsuite id="1" name="phantomjs.2_1_1.sap_b1_smp_pum.test-resources.integration.indexOpaWithGherkin_qunit_html?responderOn=true.Feature: Navigation of I-User" hostname="localhost" tests="1" failures="0" errors="0" time="4.586" timestamp="2017-12-15T01:38:56Z">
+<testcase name="Scenario: Navigation in normal mode" tests="1" failures="0" errors="0" time="4.586" timestamp="2017-12-15T01:38:56Z">
+</testcase>
+<testcase name="(WIP) Scenario: This is an incompleted scenario" tests="0" failures="0" errors="0" time="0" timestamp="2017-12-15T01:39:01Z">
+</testcase>
+</testsuite>
+</testsuites>
