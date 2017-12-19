@@ -13,6 +13,14 @@ oProject.getProjectId().then(function(sId){
 	console.log("XC: " + sId);
 });
 
+oProject.getTestKpi("unit").then(function(oKpi){
+	console.log("XC: " + oKpi.passed + ":" + oKpi.failed + ":" + oKpi.assertion);
+});
+
+oProject.getTestKpi("integration").then(function(oKpi){
+	console.log("XC: " + oKpi.passed + ":" + oKpi.failed + ":" + oKpi.assertion);
+});
+
 /* 
  * Test http request to I7D
 */
