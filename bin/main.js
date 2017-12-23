@@ -1,14 +1,21 @@
 #! /usr/bin/env node
 
-//var Http = require("http");
+/***
+	Run the program in CLI like:
+	  node main.js jenkins_job_workspace_path
+	You can get the first CLI parameter through process.argv[2]
+*/
+
 var Project = require("../lib/project");
 
+var aArgv = process.argv.slice(2);
+
 var oProject  = new Project({
-	workSpace: "../data/B1 SMP PUM"
+	workSpace: aArgv[0] //"../data/B1 SMP PUM"
 });
 
 oProject.getProjectId().then(function(sId){
-	console.log("Project id: " + sId);
+	console.log("Get project id: " + sId);
 });
 
 oProject.getTestKpi("unit").then(function(oKpi){
