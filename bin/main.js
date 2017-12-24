@@ -16,12 +16,7 @@ var oProject  = new Project({
 
 oProject.getProjectId().then(function(sId){
 	console.log("Get project id: " + sId);
-});
-
-oProject.getTestKpi("unit").then(function(oKpi){
-	console.log("Unit test: passed-" + oKpi.passed + ", failed-" + oKpi.failed+ ", skipped-" + oKpi.skipped + ", assertions-" + oKpi.assertion);
-});
-
-oProject.getTestKpi("integration").then(function(oKpi){
-	console.log("Integration test: passed-" + oKpi.passed + ", failed-" + oKpi.failed+ ", skipped-" + oKpi.skipped + ", assertions-" + oKpi.assertion);
+	return oProject.getTestKpi();
+}).then(function(oKpi){
+	console.log("Get project test kpi: " + JSON.stringify(oKpi));
 });
