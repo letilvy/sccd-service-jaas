@@ -15,19 +15,11 @@ var oServer = HTTP.createServer(function(request, response){
     });
 
     request.on("end", function(){
-        var oDB = new DB({name: "i306293"});
-
-        // var oConn = db.createConnection({
-        //     host: "localhost",
-        //     user: "guest",
-        //     password: "guest",
-        //     port: "3306",
-        //     database: "i306293"
-        // });
+        var oDB = new DB({name: "sccd"});
 
         oDB.connect();
 
-        oDB.query("select * from user", function(oError, aResult){
+        oDB.query("select * from ut", function(oError, aResult){
             if(oError){
                 console.log("[Database error] - ", oError.message); //write header instead
                 return;
