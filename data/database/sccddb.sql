@@ -30,6 +30,7 @@ CREATE TABLE `IT` (
   `passed` int(4) DEFAULT NULL,
   `failed` int(4) DEFAULT NULL,
   `skipped` int(4) DEFAULT NULL,
+  `assertion` int(4) DEFAULT NULL,
   `stmtcover` float DEFAULT NULL,
   `timestamp` char(14) DEFAULT NULL,
   PRIMARY KEY (`itid`)
@@ -110,6 +111,7 @@ CREATE TABLE `UT` (
   `passed` int(4) DEFAULT NULL,
   `failed` int(4) DEFAULT NULL,
   `skipped` int(4) DEFAULT NULL,
+  `assertion` int(4) DEFAULT NULL,
   `stmtcover` float DEFAULT NULL,
   `timestamp` char(14) DEFAULT NULL,
   PRIMARY KEY (`utid`)
@@ -160,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-21  1:36:10
+-- Dump completed on 2017-12-26  2:51:51
