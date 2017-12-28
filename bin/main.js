@@ -29,7 +29,7 @@ function getTimestamp(oDate){
 }
 
 var oProject = new Project({
-	workSpace: aArgv[0] //"../data/B1 SMP PUM"
+	workSpace: aArgv[0] || "./" //"../data/B1 SMP PUM"
 });
 var oDB = new DB({
 	name: "sccd"
