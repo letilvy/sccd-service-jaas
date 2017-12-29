@@ -3,6 +3,8 @@
 /***
 	Run the program in CLI like:
 	  node main.js jenkins_job_workspace_path branch_name
+	Or
+	  sccd jenkins_job_workspace_path branch_name //on jenkins server
 	You can get the first CLI parameter through process.argv[2]
 */
 
@@ -29,7 +31,7 @@ function getTimestamp(oDate){
 }
 
 var oProject = new Project({
-	workSpace: aArgv[0] || "./" //"../data/B1 SMP PUM"
+	workSpace: aArgv[0] || "./" //Use "../data/B1 SMP PUM" as debug purpose
 });
 var oDB = new DB({
 	name: "sccd"
