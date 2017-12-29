@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `IT`;
 CREATE TABLE `IT` (
   `itid` int(4) NOT NULL AUTO_INCREMENT,
   `pid` char(64) DEFAULT NULL,
-  `type` char(3) DEFAULT NULL,
-  `branch` char(32) DEFAULT NULL,
+  `type` char(3) DEFAULT 'UI5',
+  `branch` char(32) DEFAULT 'master',
   `passed` int(4) DEFAULT NULL,
   `failed` int(4) DEFAULT NULL,
   `skipped` int(4) DEFAULT NULL,
@@ -106,8 +106,8 @@ DROP TABLE IF EXISTS `UT`;
 CREATE TABLE `UT` (
   `utid` int(4) NOT NULL AUTO_INCREMENT,
   `pid` char(64) DEFAULT NULL,
-  `type` char(3) DEFAULT NULL,
-  `branch` char(32) DEFAULT NULL,
+  `type` char(3) DEFAULT 'UI5',
+  `branch` char(32) DEFAULT 'master',
   `passed` int(4) DEFAULT NULL,
   `failed` int(4) DEFAULT NULL,
   `skipped` int(4) DEFAULT NULL,
