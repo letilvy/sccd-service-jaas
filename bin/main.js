@@ -43,6 +43,7 @@ var sBranch = (aArgv[1]?(aArgv[1].match(/^.*\/(\w+)$/))[1]:null) || "master";
 Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aResult){
 	var sProjectId = aResult[0], oKpi = aResult[1];
 	var sSql, sDbTable, aParam;
+	console.log("Get project id: " + sProjectId);
 
 	oDB.connect();
 	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey){
@@ -54,6 +55,10 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aRes
 				case Project.TestType.System: sDbTable = "ST"; break;
 				default: return false;
 			}
+			console.log("Get " + sTestType + " test kpi: passed-" + oKpi[sTestType].passed + ", " +
+														"failed-" + oKpi[sTestType].failed + ", " +
+														"skipped-" + oKpi[sTestType].skipped + ", " +
+														"assertion-" + oKpi[sTestType].assertion);
 			sSql = "INSERT INTO " + sDbTable + 
 			       "(pid, branch, passed, failed, skipped, assertion, timestamp) VALUES(?,?,?,?,?,?,?)";
             aParam = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
@@ -62,7 +67,7 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aRes
             	if(oError){
             		console.log("DB error:" + oError.message);
             	}
-            	console.log("Save " + sTestType +" test kpi successfully, DB record key: " + oResult.insertId);
+            	console.log("Save " + sTestType +" test kpi successfully, tcid: " + oResult.insertId);
             });
 		}
 	});
