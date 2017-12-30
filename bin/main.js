@@ -36,7 +36,9 @@ var oProject = new Project({
 var oDB = new DB({
 	name: "sccd"
 });
-var sBranch = aArgv[1] || "master";
+
+//${GIT_BRANCH} has a prefix "origin/", while ${GERRIT_BRANCH} does not
+var sBranch = (aArgv[1]?(aArgv[1].match(/^.*\/(\w+)$/))[1]:null) || "master";
 
 Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aResult){
 	var sProjectId = aResult[0], oKpi = aResult[1];
