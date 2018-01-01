@@ -2,6 +2,9 @@
 
 var HTTP = require("http");
 var DB = require("../lib/db");
+var MySql = require("mysql");
+
+//var oDB = new DB({name: "sccd"});
 
 var oServer = HTTP.createServer(function(request, response){
     var sUrl = request.url;
@@ -15,7 +18,15 @@ var oServer = HTTP.createServer(function(request, response){
     });
 
     request.on("end", function(){
-        var oDB = new DB({name: "sccd"});
+        /*var oDB = new DB({name: "sccd"});*/
+
+        var oDB = MySql.createConnection({
+            host: "localhost",
+            user: "guest",
+            password: "guest",
+            port: "3306",
+            database: "sccd"
+        });
 
         oDB.connect();
 
@@ -34,6 +45,7 @@ var oServer = HTTP.createServer(function(request, response){
             }
         });
 
-        oDB.close();
+        //oDB.close();
+        oDB.end();
     });
 }).listen(1918);

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+        <head>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+                <link rel="shortcut icon" href="img/favicon.ico" />
+                <title>SAL CI/CD Dashboard</title>
+
+                <script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+                                id="sap-ui-bootstrap"
+                                data-sap-ui-libs="sap.m, sap.ui.layout"
+                                data-sap-ui-theme="sap_belize">
+                </script>
+
+                <script>
+                        new sap.m.Button("shell_root", {
+                                text: "Hello SAL Jenkins",
+                                press: function(){
+                                    jQuery.ajax({
+                                        url: "localhost",
+                                        dataType: "text",
+                                        port: 1918,
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'text/plain'
+                                        },
+                                        success: function(oData){
+                                            console.log(oData);
+                                        },
+                                        error: function(oError){
+                                            console.log(oError);
+                                        }
+                                    });
+                                }
+                        }).placeAt('content');
+
+                </script>
+
+</head>
+<body class="sapUiBody">
+        <div id="content"></div>
+</body>
+</html>
