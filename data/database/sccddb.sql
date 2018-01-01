@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `IT`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `IT` (
-  `itid` int(4) NOT NULL AUTO_INCREMENT,
+  `tcid` int(4) NOT NULL AUTO_INCREMENT,
   `pid` char(64) DEFAULT NULL,
   `type` char(3) DEFAULT 'UI5',
   `branch` char(32) DEFAULT 'master',
@@ -33,7 +33,7 @@ CREATE TABLE `IT` (
   `assertion` int(4) DEFAULT NULL,
   `stmtcover` float DEFAULT NULL,
   `timestamp` char(14) DEFAULT NULL,
-  PRIMARY KEY (`itid`)
+  PRIMARY KEY (`tcid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,7 +104,7 @@ DROP TABLE IF EXISTS `UT`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UT` (
-  `utid` int(4) NOT NULL AUTO_INCREMENT,
+  `tcid` int(4) NOT NULL AUTO_INCREMENT,
   `pid` char(64) DEFAULT NULL,
   `type` char(3) DEFAULT 'UI5',
   `branch` char(32) DEFAULT 'master',
@@ -114,7 +114,7 @@ CREATE TABLE `UT` (
   `assertion` int(4) DEFAULT NULL,
   `stmtcover` float DEFAULT NULL,
   `timestamp` char(14) DEFAULT NULL,
-  PRIMARY KEY (`utid`)
+  PRIMARY KEY (`tcid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

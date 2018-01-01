@@ -42,12 +42,14 @@ var sBranch = (aArgv[1]?(aArgv[1].match(/^.*\/(\w+)$/))[1]:null) || "master";
 
 Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aResult){
 	var sProjectId = aResult[0], oKpi = aResult[1];
-	var sSql, sDbTable, aParam;
+	var sTimestamp = getTimestamp(new Date());
 	console.log("Get project id: " + sProjectId);
 
 	oDB.connect();
 	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey){
+		var sSql, sDbTable, aParam;
 		var sTestType = Project.TestType[sTestTypeKey];
+
 		if(oKpi[sTestType].assertion){
 			switch(sTestType){
 				case Project.TestType.Unit: sDbTable = "UT"; break;
@@ -59,16 +61,57 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aRes
 														"failed-" + oKpi[sTestType].failed + ", " +
 														"skipped-" + oKpi[sTestType].skipped + ", " +
 														"assertion-" + oKpi[sTestType].assertion);
-			sSql = "INSERT INTO " + sDbTable + 
+
+			//Check test kpi of today has been recorded or not
+			sSql = "SELECT tcid FROM " + sDbTable +
+				   " WHERE pid = '" + sProjectId +"' AND timestamp LIKE '" + sTimestamp.slice(0,8) +"%'" +
+				   " ORDER BY timestamp desc";
+		    oDB.query(sSql, null, function(oError, aRow){
+            	if(oError){
+            		console.log("Check " + sProjectId + "-" + sTimestamp.slice(0,8) + " test kpi existence failed.");
+            		return;
+            	}
+            	
+            	var sSql2, aParam2;
+            	if(aRow.length){ //Update the record with the latest test result
+            		console.log(sSql + "\nExist!");
+            		sSql2 = "UPDATE " + sDbTable +
+            			   " SET pid=?, branch=?, passed=?, failed=?, skipped=?, assertion=?, timestamp=?" +
+            			   " WHERE tcid=?";
+            		aParam2 = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
+		            			oKpi[sTestType].assertion, sTimestamp, aRow[0].tcid];
+            	}else{ //Insert a new test result
+            		console.log(sSql + "\nNot Exist!");
+					sSql2 = "INSERT INTO " + sDbTable + 
+					       "(pid, branch, passed, failed, skipped, assertion, timestamp) VALUES(?,?,?,?,?,?,?)";
+		            aParam2 = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
+		            			oKpi[sTestType].assertion, sTimestamp];
+            	}
+
+				var oDB2 = new DB({
+					name: "sccd"
+				});
+				oDB2.connect();
+            	oDB2.query(sSql2, aParam2, function(oError, oResult){
+	            	if(oError){
+	            		console.log("DB error:" + oError.message);
+	            		return;
+	            	}
+	            	console.log("Save " + sTestType +" test kpi successfully." + oResult/*, tcid: " + oResult.insertId*/);
+	            });
+	            oDB2.close();
+            });
+
+			/*sSql = "INSERT INTO " + sDbTable + 
 			       "(pid, branch, passed, failed, skipped, assertion, timestamp) VALUES(?,?,?,?,?,?,?)";
             aParam = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
-            			oKpi[sTestType].assertion, getTimestamp(new Date())];
+            			oKpi[sTestType].assertion, sTimestamp];
             oDB.query(sSql, aParam, function(oError, oResult){
             	if(oError){
             		console.log("DB error:" + oError.message);
             	}
             	console.log("Save " + sTestType +" test kpi successfully, tcid: " + oResult.insertId);
-            });
+            });*/
 		}
 	});
 	oDB.close();
