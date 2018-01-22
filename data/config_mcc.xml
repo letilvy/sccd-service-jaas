@@ -6,8 +6,8 @@
   <properties>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>7</daysToKeep>
-        <numToKeep>5</numToKeep>
+        <daysToKeep>1</daysToKeep>
+        <numToKeep>3</numToKeep>
         <artifactDaysToKeep>-1</artifactDaysToKeep>
         <artifactNumToKeep>-1</artifactNumToKeep>
       </strategy>
@@ -101,14 +101,17 @@
         <onUnstable>false</onUnstable>
         <onNotBuilt>false</onNotBuilt>
       </skipVote>
+      <gerritBuildSuccessfulVerifiedValue>1</gerritBuildSuccessfulVerifiedValue>
+      <gerritBuildFailedVerifiedValue>-1</gerritBuildFailedVerifiedValue>
+      <gerritBuildUnstableVerifiedValue>-1</gerritBuildUnstableVerifiedValue>
       <silentMode>false</silentMode>
-      <notificationLevel></notificationLevel>
+      <notificationLevel>NONE</notificationLevel>
       <silentStartMode>false</silentStartMode>
       <escapeQuotes>true</escapeQuotes>
-      <nameAndEmailParameterMode>PLAIN</nameAndEmailParameterMode>
+      <nameAndEmailParameterMode>NONE</nameAndEmailParameterMode>
       <dependencyJobsNames></dependencyJobsNames>
       <commitMessageParameterMode>BASE64</commitMessageParameterMode>
-      <changeSubjectParameterMode>PLAIN</changeSubjectParameterMode>
+      <changeSubjectParameterMode>BASE64</changeSubjectParameterMode>
       <commentTextParameterMode>BASE64</commentTextParameterMode>
       <buildStartMessage></buildStartMessage>
       <buildFailureMessage></buildFailureMessage>
@@ -120,10 +123,11 @@
       <serverName>SAP Support Portal Gerrit Server</serverName>
       <triggerOnEvents>
         <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginPatchsetCreatedEvent>
-          <excludeDrafts>true</excludeDrafts>
-          <excludeTrivialRebase>true</excludeTrivialRebase>
-          <excludeNoCodeChange>true</excludeNoCodeChange>
+          <excludeDrafts>false</excludeDrafts>
+          <excludeTrivialRebase>false</excludeTrivialRebase>
+          <excludeNoCodeChange>false</excludeNoCodeChange>
         </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginPatchsetCreatedEvent>
+        <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginDraftPublishedEvent/>
       </triggerOnEvents>
       <dynamicTriggerConfiguration>false</dynamicTriggerConfiguration>
       <triggerConfigURL></triggerConfigURL>
@@ -161,7 +165,7 @@
   </reporters>
   <publishers>
     <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.58">
-      <recipientList>$DEFAULT_RECIPIENTS</recipientList>
+      <recipientList>xiaocheng.wei@sap.com</recipientList>
       <configuredTriggers>
         <hudson.plugins.emailext.plugins.trigger.FailureTrigger>
           <email>
@@ -179,7 +183,7 @@
         </hudson.plugins.emailext.plugins.trigger.FailureTrigger>
       </configuredTriggers>
       <contentType>default</contentType>
-      <defaultSubject>$DEFAULT_SUBJECT</defaultSubject>
+      <defaultSubject>$GERRIT_BRANCH - Unit Test - Mcc Activities - $BUILD_STATUS</defaultSubject>
       <defaultContent>$DEFAULT_CONTENT</defaultContent>
       <attachmentsPattern></attachmentsPattern>
       <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
