@@ -30,7 +30,7 @@ var oServer = HTTP.createServer(function(request, response){
 
         oDB.connect();
 
-        oDB.query("select * from ut", function(oError, aResult){
+        oDB.query("select * from UT", function(oError, aResult){
             if(oError){
                 console.log("[Database error] - ", oError.message); //write header instead
                 return;
@@ -48,4 +48,4 @@ var oServer = HTTP.createServer(function(request, response){
         //oDB.close();
         oDB.end();
     });
-}).listen(1918);
+}).listen(1519);
