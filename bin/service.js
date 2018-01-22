@@ -8,6 +8,8 @@ var MySql = require("mysql");
 
 var oServer = HTTP.createServer(function(request, response){
     var sUrl = request.url;
+
+    console.log(sUrl);
     
     response.writeHead(200, HTTP.STATUS_CODES[200], {
         'Content-Type': 'text/plain'
@@ -22,8 +24,8 @@ var oServer = HTTP.createServer(function(request, response){
 
         var oDB = MySql.createConnection({
             host: "localhost",
-            user: "guest",
-            password: "guest",
+            user: "root",
+            password: "i306293",
             port: "3306",
             database: "sccd"
         });
@@ -35,6 +37,7 @@ var oServer = HTTP.createServer(function(request, response){
                 console.log("[Database error] - ", oError.message); //write header instead
                 return;
             }
+
             if(sUrl.match("XCSet")){
                 response.end(JSON.stringify(aResult));
             }else{
