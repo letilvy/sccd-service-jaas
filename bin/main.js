@@ -71,6 +71,8 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aRes
 	var sProjectId = aResult[0], oKpi = aResult[1];
 	var sTimestamp = getTimestamp(new Date());
 
+	console.log("Get project id: " + sProjectId);
+
 	oDB.connect();
 	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey){
 		var sSqlCheck, aParamCheck;
