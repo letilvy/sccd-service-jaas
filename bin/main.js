@@ -67,6 +67,7 @@ if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
 }
 console.log("Get branch name: " + sBranch);
 
+
 Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aResult){
 	var sProjectId = aResult[0], oKpi = aResult[1];
 	var sTimestamp = getTimestamp(new Date());
