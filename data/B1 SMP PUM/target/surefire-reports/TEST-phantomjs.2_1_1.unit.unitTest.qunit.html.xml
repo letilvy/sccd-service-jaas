@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="http://localhost:35258/incidentdevopsdashboard/test-resources/unit/unitTest.qunit.html?responderOn=true" hostname="localhost" tests="28" failures="0" errors="0" time="3.619" timestamp="2018-01-05T09:23:00Z">
+<testsuite id="0" name="phantomjs.2_1_1.incidentdevopsdashboard.test-resources.unit.unitTest_qunit_html?responderOn=true.Formatter-Replication" hostname="localhost" tests="7" failures="0" errors="0" time="0.009" timestamp="2018-01-05T09:23:00Z">
+<testcase name="Should be displayed nothing while blank" tests="1" failures="0" errors="0" time="0.003" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Should display Very High for 1" tests="1" failures="0" errors="0" time="0.001" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Should display High for 2" tests="1" failures="0" errors="0" time="0.001" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Should display Medium for 3" tests="1" failures="0" errors="0" time="0.001" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Should display Low for 4" tests="1" failures="0" errors="0" time="0" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Should be displayed 24 digits number" tests="1" failures="0" errors="0" time="0.001" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Guid Should be displayed without -" tests="1" failures="0" errors="0" time="0.001" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+</testsuite>
+<testsuite id="1" name="phantomjs.2_1_1.incidentdevopsdashboard.test-resources.unit.unitTest_qunit_html?responderOn=true.Formatting - ABAP Runtime Error Ops" hostname="localhost" tests="4" failures="0" errors="0" time="0.026" timestamp="2018-01-05T09:23:00Z">
+<testcase name="getDateText - Should return &apos;Today&apos; when the date equals to today&apos; date." tests="1" failures="0" errors="0" time="0.01" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="getDateText - Should return &apos;Today-1&apos; when the date is yesterday&apos;s date." tests="1" failures="0" errors="0" time="0.006" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="getDateText - Should return &apos;Today-1&apos; when the date is the day before yesterday&apos;s date." tests="1" failures="0" errors="0" time="0.005" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="get customized Runtime Timestample - Should return formatted date/time when timestample is given" tests="1" failures="0" errors="0" time="0.004" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+</testsuite>
+<testsuite id="2" name="phantomjs.2_1_1.incidentdevopsdashboard.test-resources.unit.unitTest_qunit_html?responderOn=true.Controller - Overview Controller" hostname="localhost" tests="11" failures="0" errors="0" time="-1515144180.994" timestamp="2018-01-05T09:23:00Z">
+<testcase name="Should see 0 replication if no replication missing" tests="1" failures="0" errors="0" time="-1515144180.994" timestamp="2018-01-05T09:23:00Z">
+</testcase>
+<testcase name="Should see 4 as tile title when replication has 4 items " tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should see &gt;999 as tile title when replication has 94401 entries" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should get 5 when call Odata successfully and get 5 entries" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should get error occured when call Odata failed" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should navigate to Replication page when click gt_replication_ops" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should navigate to ABAP error ops page when click gt_abap_ops" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should navigate to ABAP error dev page when click gt_abap_dev" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should navigate to abnormal incident page when click gt_abnormal" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should get nothing when there was no history" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="Should get 1 entry when there was 1 entry in response" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+</testsuite>
+<testsuite id="3" name="phantomjs.2_1_1.incidentdevopsdashboard.test-resources.unit.unitTest_qunit_html?responderOn=true.Controller - AbapRuntimeError controller" hostname="localhost" tests="6" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+<testcase name="Should return true when XXXXXXXXXXXXXXXXXX" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="should see all runtime error in last 3 days when no date selected" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="should see runtime error in the selected day when one date selected" tests="1" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+<testcase name="should deselect other date when another one selected " tests="3" failures="0" errors="0" time="0" timestamp="1970-01-01T00:00:00Z">
+</testcase>
+</testsuite>
+</testsuites>

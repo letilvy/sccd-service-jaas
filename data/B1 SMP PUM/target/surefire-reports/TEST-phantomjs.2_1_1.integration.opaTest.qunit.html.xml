@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="http://localhost:35258/incidentdevopsdashboard/test-resources/integration/opaTest.qunit.html?responderOn=true" hostname="localhost" tests="4" failures="0" errors="0" time="17.941" timestamp="2018-01-05T09:23:08Z">
+<testsuite id="0" name="phantomjs.2_1_1.incidentdevopsdashboard.test-resources.integration.opaTest_qunit_html?responderOn=true.Feature: Start the App" hostname="localhost" tests="4" failures="0" errors="0" time="17.937" timestamp="2018-01-05T09:23:08Z">
+<testcase name="Scenario: Should be able to see overview page" tests="1" failures="0" errors="0" time="4.309" timestamp="2018-01-05T09:23:08Z">
+</testcase>
+<testcase name="Scenario: Should see the replication page" tests="2" failures="0" errors="0" time="8.542" timestamp="2018-01-05T09:23:13Z">
+</testcase>
+<testcase name="Scenario: Should see the overview page" tests="1" failures="0" errors="0" time="5.085" timestamp="2018-01-05T09:23:21Z">
+</testcase>
+</testsuite>
+</testsuites>

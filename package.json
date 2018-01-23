@@ -5,6 +5,9 @@
 		"argv": {
 			"version": "0.0.2"
 		},
+		"optimist": {
+			"version": "0.6.1"
+		},
 		"mysql": {
 			"version": "2.15.0"
 		}
