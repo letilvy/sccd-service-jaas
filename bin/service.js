@@ -32,13 +32,13 @@ var oServer = HTTP.createServer(function(request, response){
 
         oDB.connect();
 
-        oDB.query("select * from UT", function(oError, aResult){
+        oDB.query("select * from UT where pid='sap.support.expertchat'", function(oError, aResult){
             if(oError){
                 console.log("[Database error] - ", oError.message); //write header instead
                 return;
             }
 
-            if(sUrl.match("XCSet")){
+            if(sUrl.match("UTSet")){
                 response.end(JSON.stringify(aResult));
             }else{
                 response.end(JSON.stringify({
