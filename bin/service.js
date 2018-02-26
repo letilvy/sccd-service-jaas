@@ -32,7 +32,7 @@ var oServer = HTTP.createServer(function(request, response){
 
         oDB.connect();
 
-        oDB.query("select * from UT where pid='sap.support.expertchat'", function(oError, aResult){
+        oDB.query("select u.tcid, p.name, u.passed, u.failed, u.assertion, u.skipped, u.timestamp from Project p, UT u where p.pid = u.pid order by timestamp", function(oError, aResult){
             if(oError){
                 console.log("[Database error] - ", oError.message); //write header instead
                 return;
