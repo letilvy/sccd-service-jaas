@@ -71,7 +71,7 @@ console.log("Get branch name: " + sBranch);
 oProject.getProjectId().then(function(sProjectId){	
 	oDB.connect();
 	//Check project record exist or not
-	sSqlCheck = "SELECT pid FROM WHERE pid=?";
+	sSqlCheck = "SELECT pid FROM Project WHERE pid=?";
     aParamCheck = [sProjectId];
     oDB.query(sSqlCheck, aParamCheck, function(oError, aRow){
     	if(oError){
