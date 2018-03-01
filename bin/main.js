@@ -67,6 +67,49 @@ if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
 }
 console.log("Get branch name: " + sBranch);
 
+//Save project information
+oProject.getProjectId().then(function(sProjectId){	
+	oDB.connect();
+	//Check project record exist or not
+	sSqlCheck = "SELECT pid FROM Project WHERE pid=?";
+    aParamCheck = [sProjectId];
+    oDB.query(sSqlCheck, aParamCheck, function(oError, aRow){
+    	if(oError){
+    		console.log("Check project " + sProjectId + " existence failed. Message: " + oError.message);
+    		return;
+    	}
+    	
+    	var sSqlSave, aParamSave;
+    	if(aRow.length === 0){ //Insert a new test result
+    		var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
+    		console.log("Create a project, id: " + sProjectId + ", name: " + sProjectName);
+			sSqlSave = "INSERT INTO Project(pid, name) VALUES(?,?)";
+            aParamSave = [sProjectId, sProjectName];
+
+            var oDBSave = new DB({
+				name: "sccd"
+			});
+			oDBSave.connect();
+	    	oDBSave.query(sSqlSave, aParamSave, function(oError, oResult){
+	        	if(oError){
+	        		console.log("DB error:" + oError.message);
+	        		return;
+	        	}
+	        	console.log("Save project id: " + sProjectId + ", name: " + sProjectName + " successfully.");
+	        });
+	        oDBSave.close();
+    	}else{
+    		console.log("Project " + sProjectId + " exist yet.");
+    	}
+    });          
+	oDB.close();
+}).catch(function(sReason){
+	console.log("Save project information failed: " + sReason);
+	oDB.close();
+});
+
+
+//Save project test KPI
 Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aResult){
 	var sProjectId = aResult[0], oKpi = aResult[1];
 	var sTimestamp = getTimestamp(new Date());
