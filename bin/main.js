@@ -48,7 +48,8 @@ function getTimestamp(oDate){
 var aArgv = process.argv.slice(2);
 
 var oProject = new Project({
-	workSpace: Argv.p || aArgv[0] || "./" //Use "../data/B1 SMP PUM" as debug purpose
+	workSpace: Argv.p || aArgv[0] || "./" //Use "../data/B1_SMP_PUM" as debug purpose
+	//workSpace: "../data/B1_SMP_PUM"
 });
 var oDB = new DB({
 	name: "sccd"
@@ -66,6 +67,7 @@ if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
 	sBranch = aArgv[1];
 }
 console.log("Get branch name: " + sBranch);
+
 
 //Save project information
 oProject.getProjectId().then(function(sProjectId){	
@@ -110,8 +112,8 @@ oProject.getProjectId().then(function(sProjectId){
 
 
 //Save project test KPI
-Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aResult){
-	var sProjectId = aResult[0], oKpi = aResult[1];
+Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCoverage()]).then(function(aResult){
+	var sProjectId = aResult[0], oKpi = aResult[1], oCoverage = aResult[2];
 	var sTimestamp = getTimestamp(new Date());
 
 	console.log("Get project id: " + sProjectId);
@@ -125,7 +127,13 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aRes
 			console.log("Get " + sTestType + " test kpi: passed-" + oKpi[sTestType].passed + ", " +
 														"failed-" + oKpi[sTestType].failed + ", " +
 														"skipped-" + oKpi[sTestType].skipped + ", " +
-														"assertion-" + oKpi[sTestType].assertion);
+														"assertion-" + oKpi[sTestType].assertion +
+														(sTestType === Project.TestType.Unit ?
+															(", included stmt lines-" + oCoverage.Included.validLines + ", " + 
+															"included stmt coverage-" + oCoverage.Included.lineRate + ", " + 
+															"all stmt lines-" + oCoverage.All.validLines + ", " + 
+															"all stmt coverage-" + oCoverage.All.lineRate):"")
+														);
 
 			//Check test kpi of today has been recorded or not
 			sSqlCheck = "SELECT tcid FROM " + sTestType +
@@ -139,19 +147,32 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi()]).then(function(aRes
             	}
             	
             	var sSqlSave, aParamSave;
+            	var aCoverage = [oCoverage.Included.validLines, oCoverage.Included.lineRate, oCoverage.All.validLines, oCoverage.All.lineRate];
             	if(aRow.length){ //Update the record with the latest test result
             		console.log("Update an existing " + sTestType +" test result: tcid = " + aRow[0].tcid + ", timestamp = " + sTimestamp);
             		sSqlSave = "UPDATE " + sTestType +
             			   " SET pid=?, branch=?, passed=?, failed=?, skipped=?, assertion=?, timestamp=?" +
+            			   (sTestType === Project.TestType.Unit ? ", inclstmtlines=?, inclstmtcover=?, allstmtlines=?, allstmtcover=?" : "") +
             			   " WHERE tcid=?";
             		aParamSave = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
-		            			oKpi[sTestType].assertion, sTimestamp, aRow[0].tcid];
+		            			oKpi[sTestType].assertion, sTimestamp].concat(
+		            				(sTestType === Project.TestType.Unit ? aCoverage : []),
+		            				[aRow[0].tcid]
+		            			);
             	}else{ //Insert a new test result
             		console.log("Create a new " + sTestType +" test result: timestamp = " + sTimestamp);
 					sSqlSave = "INSERT INTO " + sTestType + 
-					       "(pid, branch, passed, failed, skipped, assertion, timestamp) VALUES(?,?,?,?,?,?,?)";
+					       "(pid, branch, passed, failed, skipped, assertion, timestamp" +
+					       (sTestType === Project.TestType.Unit ? ", inclstmtlines, inclstmtcover, allstmtlines, allstmtcover" : "") +
+					       ")" +
+					       " VALUES(?,?,?,?,?,?,?" +
+					       (sTestType === Project.TestType.Unit ? ",?,?,?,?" : "") +
+					       ")";
+					console.log("\n" + sSqlSave + "\n");
 		            aParamSave = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
-		            			oKpi[sTestType].assertion, sTimestamp];
+		            			oKpi[sTestType].assertion, sTimestamp].concat(
+		            				(sTestType === Project.TestType.Unit ? aCoverage : [])
+		            			);
             	}
 
 				var oDBSave = new DB({
