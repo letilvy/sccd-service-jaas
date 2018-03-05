@@ -168,7 +168,6 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 					       " VALUES(?,?,?,?,?,?,?" +
 					       (sTestType === Project.TestType.Unit ? ",?,?,?,?" : "") +
 					       ")";
-					console.log("\n" + sSqlSave + "\n");
 		            aParamSave = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
 		            			oKpi[sTestType].assertion, sTimestamp].concat(
 		            				(sTestType === Project.TestType.Unit ? aCoverage : [])
