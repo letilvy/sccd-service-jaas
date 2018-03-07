@@ -31,8 +31,8 @@ var oServer = HTTP.createServer(function(request, response){
 
         var oDB = MySql.createConnection({
             host: "localhost",
-            user: "guest",
-            password: "guest",
+            user: "root",
+            password: "i306293",
             port: "3306",
             database: "sccd"
         });
@@ -53,7 +53,7 @@ var oServer = HTTP.createServer(function(request, response){
                 break;
 
             case "UTSet":
-                var sUTQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, p.team teamId, t.name teamName, ut.passed passed, ut.failed failed, ut.assertion assertion, ut.branch branch, ut.timestamp timestamp from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid, u.pid, u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid left join Project p on ut.pid = p.pid left join Team t on p.team = t.tid order by p.team desc, ut.assertion desc";
+                var sUTQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, p.team teamId, t.name teamName, ut.passed passed, ut.failed failed, ut.assertion assertion, ut.inclstmtlines includeLine, ut.inclstmtcover includeCover, ut.allstmtlines allLine, ut.allstmtcover allCover, ut.timestamp timestamp from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid, u.pid, u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid left join Project p on ut.pid = p.pid left join Team t on p.team = t.tid order by p.team desc, ut.assertion desc";
                 oDB.query(sUTQuery, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
