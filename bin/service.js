@@ -16,6 +16,7 @@ var oServer = HTTP.createServer(function(request, response){
     if(oUrl.pathname.match(/(\w+)$/)){
         sEntitySet = oUrl.pathname.match(/(\w+)$/)[0];
         oUrlParam = oUrl.query;
+        console.log(oUrl);
     }
 
     response.writeHead(200, HTTP.STATUS_CODES[200], {
@@ -31,8 +32,8 @@ var oServer = HTTP.createServer(function(request, response){
 
         var oDB = MySql.createConnection({
             host: "localhost",
-            user: "root",
-            password: "i306293",
+            user: "guest",
+            password: "guest",
             port: "3306",
             database: "sccd"
         });
@@ -89,8 +90,57 @@ var oServer = HTTP.createServer(function(request, response){
                 break;
 
             case "ProjectDetailITSet":
-                var sProjectDetailITQuery = "select  it.tcid tcid, it.pid projectId, p.name projectName, it.passed passed, it.failed failed, it.assertion assertion, p.team teamId, t.name teamName, it.timestamp timestamp from IT it left join Project p on (it.pid = p.pid ) left join Team t on (p.team = t.tid) where it.pid = 'sap.support.sae'  and it.branch='master' order by timestamp desc";
+                var sProjectDetailITQuery = "select it.tcid tcid, it.pid projectId, p.name projectName, it.passed passed, it.failed failed, it.assertion assertion, p.team teamId, t.name teamName, it.timestamp timestamp from IT it left join Project p on (it.pid = p.pid ) left join Team t on (p.team = t.tid) where it.pid = 'sap.support.sae' and it.branch='master' order by timestamp desc";
                 oDB.query(sProjectDetailITQuery, function(oError, aResult){
+                    if(oError){
+                        console.log("[Database error] - ", oError.message); //write header instead
+                        return;
+                    }
+
+                    response.end(JSON.stringify(aResult));
+                });
+                break;
+
+            case "Top3ActiveSet":
+                var sTop3ActiveSet = "select u.pid projectId, p.name projectName, u.passed, u.failed, u.passed+failed tatalTC, count(*) commit_times, max(u.tcid) tcid from UT u, Project p where DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(timestamp) and u.pid = p.pid group by u.pid order by commit_times desc, u.tcid desc limit 3;";
+                oDB.query(sTop3ActiveSet, function(oError, aResult){
+                    if(oError){
+                        console.log("[Database error] - ", oError.message); //write header instead
+                        return;
+                    }
+
+                    response.end(JSON.stringify(aResult));
+                });
+                break;
+
+            case "TotalProjectSet":
+                var sTotalProjectSet = "select count(*) totalProject from Project";
+                oDB.query(sTotalProjectSet, function(oError, aResult){
+                    if(oError){
+                        console.log("[Database error] - ", oError.message); //write header instead
+                        return;
+                    }
+
+                    response.end(JSON.stringify(aResult));
+                });
+                break;
+
+            case "HealthyUTProjectSet":
+                var sHealthyUTProjectSet = "select * from (select count(*) UT_TotalProject from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid,   u.pid,   u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid) total,  (select count(*) UT_FailedProject from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid,   u.pid,   u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid where ut.failed > 0) failed,  (select count(*) UT_PassedProject from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid,   u.pid,   u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid where ut.failed = 0) passed";
+                oDB.query(sHealthyUTProjectSet, function(oError, aResult){
+                    if(oError){
+                        console.log("[Database error] - ", oError.message); //write header instead
+                        return;
+                    }
+
+                    response.end(JSON.stringify(aResult));
+                });
+                break;
+
+
+            case "HealthyITProjectSet":
+                var sHealthyITProjectSet = "select * from (select count(*) IT_TotalProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid) total, (select count(*) IT_FailedProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid where it.failed > 0) failed, (select count(*) IT_PassedProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid where it.failed = 0) passed";
+                oDB.query(sHealthyITProjectSet, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
                         return;
