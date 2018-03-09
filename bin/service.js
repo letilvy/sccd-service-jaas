@@ -66,7 +66,7 @@ var oServer = HTTP.createServer(function(request, response){
                 break;
 
             case "ProjectDetailUTSet":
-                var sProDetailUTQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, ut.passed passed, ut.failed failed, ut.assertion assertion, p.team teamId, t.name teamName, ut.timestamp timestamp from UT ut left join Project p on (ut.pid = p.pid ) left join Team t on (p.team = t.tid) where ut.pid = 'sap.support.sae'  and ut.branch='master' order by timestamp desc";
+                var sProDetailUTQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, ut.passed passed, ut.failed failed, ut.assertion assertion, p.team teamId, t.name teamName, ut.timestamp timestamp from UT ut left join Project p on (ut.pid = p.pid ) left join Team t on (p.team = t.tid) where ut.pid = 'sap.support.sae'  and ut.branch='master' order by timestamp asc";
                 oDB.query(sProDetailUTQuery, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
@@ -90,7 +90,7 @@ var oServer = HTTP.createServer(function(request, response){
                 break;
 
             case "ProjectDetailITSet":
-                var sProjectDetailITQuery = "select it.tcid tcid, it.pid projectId, p.name projectName, it.passed passed, it.failed failed, it.assertion assertion, p.team teamId, t.name teamName, it.timestamp timestamp from IT it left join Project p on (it.pid = p.pid ) left join Team t on (p.team = t.tid) where it.pid = 'sap.support.sae' and it.branch='master' order by timestamp desc";
+                var sProjectDetailITQuery = "select it.tcid tcid, it.pid projectId, p.name projectName, it.passed passed, it.failed failed, it.assertion assertion, p.team teamId, t.name teamName, it.timestamp timestamp from IT it left join Project p on (it.pid = p.pid ) left join Team t on (p.team = t.tid) where it.pid = 'sap.support.sae' and it.branch='master' order by timestamp asc";
                 oDB.query(sProjectDetailITQuery, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
