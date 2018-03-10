@@ -16,7 +16,7 @@ var oServer = HTTP.createServer(function(request, response){
     if(oUrl.pathname.match(/(\w+)$/)){
         sEntitySet = oUrl.pathname.match(/(\w+)$/)[0];
         oUrlParam = oUrl.query;
-        console.log(oUrl);
+        console.log("ttttttttttttttt"+oUrlParam);
     }
 
     response.writeHead(200, HTTP.STATUS_CODES[200], {
@@ -26,7 +26,6 @@ var oServer = HTTP.createServer(function(request, response){
     request.on("data", function(chunk){
         response.write("XC Test");
     });
-
     request.on("end", function(){
         /*var oDB = new DB({name: "sccd"});*/
 
@@ -66,7 +65,7 @@ var oServer = HTTP.createServer(function(request, response){
                 break;
 
             case "ProjectDetailUTSet":
-                var sProDetailUTQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, ut.passed passed, ut.failed failed, ut.assertion assertion, p.team teamId, t.name teamName, ut.timestamp timestamp from UT ut left join Project p on (ut.pid = p.pid ) left join Team t on (p.team = t.tid) where ut.pid = 'sap.support.sae'  and ut.branch='master' order by timestamp asc";
+                var sProDetailUTQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, ut.passed passed, ut.failed failed, ut.assertion assertion, p.team teamId, t.name teamName, ut.timestamp timestamp from UT ut left join Project p on (ut.pid = p.pid ) left join Team t on (p.team = t.tid) where ut.pid = "+ oUrlParam +" and ut.branch='master' order by timestamp asc";
                 oDB.query(sProDetailUTQuery, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
@@ -140,18 +139,6 @@ var oServer = HTTP.createServer(function(request, response){
             case "HealthyITProjectSet":
                 var sHealthyITProjectSet = "select * from (select count(*) IT_TotalProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid) total, (select count(*) IT_FailedProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid where it.failed > 0) failed, (select count(*) IT_PassedProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid where it.failed = 0) passed";
                 oDB.query(sHealthyITProjectSet, function(oError, aResult){
-                    if(oError){
-                        console.log("[Database error] - ", oError.message); //write header instead
-                        return;
-                    }
-
-                    response.end(JSON.stringify(aResult));
-                });
-                break;
-
-            case "ProjectSet":
-                var sProjectSet = "select count(*) total_Project from Project";
-                oDB.query(sProjectSet, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
                         return;
