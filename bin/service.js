@@ -137,10 +137,21 @@ var oServer = HTTP.createServer(function(request, response){
                 });
                 break;
 
-
             case "HealthyITProjectSet":
                 var sHealthyITProjectSet = "select * from (select count(*) IT_TotalProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid) total, (select count(*) IT_FailedProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid where it.failed > 0) failed, (select count(*) IT_PassedProject from (select i.pid, substring_index(group_concat(i.tcid), ',', -1) last_commit_id from (select i.tcid, i.pid, i.timestamp from IT i where timestamp > 0 and branch = 'master' order by i.pid asc, i.timestamp desc) i group by i.pid) l left join IT it on l.last_commit_id = it.tcid where it.failed = 0) passed";
                 oDB.query(sHealthyITProjectSet, function(oError, aResult){
+                    if(oError){
+                        console.log("[Database error] - ", oError.message); //write header instead
+                        return;
+                    }
+
+                    response.end(JSON.stringify(aResult));
+                });
+                break;
+
+            case "ProjectSet":
+                var sProjectSet = "select count(*) total_Project from Project";
+                oDB.query(sProjectSet, function(oError, aResult){
                     if(oError){
                         console.log("[Database error] - ", oError.message); //write header instead
                         return;
