@@ -15,7 +15,8 @@ var oServer = HTTP.createServer(function(request, response){
     var sEntitySet, oUrlParam;
     if(oUrl.pathname.match(/(\w+)$/)){
         sEntitySet = oUrl.pathname.match(/(\w+)$/)[0];
-        oUrlParam = oUrl.query;
+        //oUrlParam = oUrl.query;
+        oUrlParam = JSON.parse(oUrl.query)[0].pid;
         console.log("ttttttttttttttt"+oUrlParam);
     }
 
