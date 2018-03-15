@@ -113,7 +113,7 @@ function sqlPromise(sSql){
 
             oDB.query(sSql, function(oError, aResult){
                 if(oError){
-                    reject("[Database error] - ", oError.message);
+                    reject("[Database error] - " + oError.message);
                 }
 
                 resolve(aResult);
