@@ -42,8 +42,14 @@ var oServer = HTTP.createServer(function(request, response){
                 response.end(JSON.stringify({
                     "totalProjects": aKpi[0][0].totalProjects,
                     "topActive": aKpi[1],
-                    "healthyUTProjects": aKpi[2][0].UTPassedProject,
-                    "healthyITProjects": aKpi[3][0].ITPassedProject,
+                    "UTStatus": {
+                        totalUTProjects: aKpi[2][0].UT_TotalProject,
+                        healthyUTProjects: aKpi[2][0].UTPassedProject
+                    },
+                    "ITStatus": {
+                        totalITProjects: aKpi[3][0].IT_TotalProject,
+                        healthyITProjects: aKpi[3][0].ITPassedProject,
+                    }
                 }));
             }, function(sErrorMsg){
                 console.log(sErrorMsg); //write header instead
