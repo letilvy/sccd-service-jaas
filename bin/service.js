@@ -71,6 +71,7 @@ var oServer = HTTP.createServer(function(request, response){
                      */
                     if(!oUrlParam.pid){
                         sQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, p.team teamId, t.name teamName, ut.passed passed, ut.failed failed, ut.assertion assertion, ut.skipped, ut.inclstmtlines includedLine, ut.inclstmtcover includedCover, ut.allstmtlines allLine, ut.allstmtcover allCover, ut.timestamp timestamp from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid, u.pid, u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid left join Project p on ut.pid = p.pid left join Team t on p.team = t.tid order by p.team desc, ut.assertion desc";
+                        sQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, p.team teamId, t.name teamName, ut.passed passed, ut.failed failed, ut.assertion assertion, ut.skipped, ut.inclstmtlines includedLine, ut.inclstmtcover includedCover, round(ut.inclstmtlines * ut.inclstmtcover) includeCoverLine, ut.allstmtlines allLine, ut.allstmtcover allCover, round(ut.allstmtlines * ut.allstmtcover) allCoverLine, ut.timestamp timestamp from (select t.pid, substring_index(group_concat(t.tcid), ',', -1) last_commit_id from (select u.tcid, u.pid, u.timestamp from UT u where timestamp > 0 and branch = 'master' order by u.pid asc, timestamp desc) t group by t.pid) l left join UT ut on l.last_commit_id = ut.tcid left join Project p on ut.pid = p.pid left join Team t on p.team = t.tid order by p.team desc, ut.assertion desc";
                     }else{
                         sQuery = "select ut.tcid tcid, ut.pid projectId, p.name projectName, ut.passed passed, ut.failed failed,  ut.passed + ut.failed allTestCases, ut.assertion assertion, ut.skipped, ut.inclstmtlines includedLine, ut.inclstmtcover includedCover, ut.allstmtlines allLine, ut.allstmtcover allCover, p.team teamId, t.name teamName, ut.timestamp timestamp from UT ut left join Project p on (ut.pid = p.pid ) left join Team t on (p.team = t.tid) where ut.pid = '" + oUrlParam.pid + "' and ut.branch='master' order by timestamp desc limit 30";
                     }
@@ -90,6 +91,10 @@ var oServer = HTTP.createServer(function(request, response){
 
                 case "F4ProjectSet":
                     sQuery = "select p.pid projectId, p.name projectName, p.contact projectContact, p.team teamId, t.name teamName, t.contact teamContact from Project p left join Team t on (p.team = t.tid)";
+                    break;
+
+                case "TeamSet":
+                    sQuery = "select * from Team";
                     break;
             }
 
