@@ -12,45 +12,40 @@ var Argv = require("optimist").boolean("cors").argv;
 	Or
 	  sccd <jenkins_job_workspace_path> <branch_name> //on jenkins server
 	Or
-	  sccd -p <jenkins_job_workspace_path> -b <branch_name> //on jenkins server
+	  sccd -p <jenkins_job_workspace_path> -b <branch_name> -i <project_id> //on jenkins server
 	You can get the first CLI parameter through process.argv[2]
 */
-if (Argv.h || Argv.help) {
+if(Argv.h || Argv.help){
   	console.log([
   		'',
 	    'usage: node main.js [options]',
 	    '',
 	    'options:',
 	    '  -p           Jenkins job workspace path. e.g.:/var/lib/jenkins/workspace/B1_SMP_PUM',
+	    '  -i           Project id. This is mandatory when it is a back-end service job for UI5 app',
 	    '  -b           Branch which test case run on [master]',
 	    '  -h --help    Print this list and exit.'
   	].join('\n'));
   	process.exit();
 }
 
-function getTimestamp(oDate){
-	var sYear = oDate.getFullYear();
-	var sMonth = oDate.getMonth() + 1;
-	var sDay = oDate.getDate();
-	var sHour = oDate.getHours();
-	var sMin = oDate.getMinutes();
-	var sSec = oDate.getSeconds();
-	
-	sMonth = sMonth < 10 ? ("0" + sMonth):sMonth;
-	sDay = sDay < 10 ? ("0" + sDay):sDay;
-	sHour = sHour < 10 ? ("0" + sHour):sHour;
-	sMin = sMin < 10 ? ("0" + sMin):sMin;
-	sSec = sSec < 10 ? ("0" + sSec):sSec;
-
-	return String(sYear) + String(sMonth) + String(sDay) + String(sHour) + String(sMin) + String(sSec);
-}
 
 var aArgv = process.argv.slice(2);
 
 var oProject = new Project({
-	workSpace: Argv.p || aArgv[0] || "./" //Use "../data/B1_SMP_PUM" as debug purpose
-	//workSpace: "../data/B1_SMP_PUM"
+	workSpace: Argv.p || aArgv[0] || "./",
+	//workSpace: "../data/B1_SMP_PUM", //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
+	//workSpace: "../data/BCD_ABAP_UT", //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+	projectId: Argv.i
 });
+
+var sProjectType = oProject.getProjectType();
+//Need to specify project id when run sccd command for an back-end jenkins job
+if(sProjectType === Project.Type.BackEnd && !Argv.i){
+	console.log("Project id is mandatory when it is a back-end service job for UI5 app.");
+	process.exit();
+}
+
 var oDB = new DB({
 	name: "sccd"
 });
@@ -68,6 +63,22 @@ if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
 }
 console.log("Get branch name: " + sBranch);
 
+function getTimestamp(oDate){
+	var sYear = oDate.getFullYear();
+	var sMonth = oDate.getMonth() + 1;
+	var sDay = oDate.getDate();
+	var sHour = oDate.getHours();
+	var sMin = oDate.getMinutes();
+	var sSec = oDate.getSeconds();
+	
+	sMonth = sMonth < 10 ? ("0" + sMonth):sMonth;
+	sDay = sDay < 10 ? ("0" + sDay):sDay;
+	sHour = sHour < 10 ? ("0" + sHour):sHour;
+	sMin = sMin < 10 ? ("0" + sMin):sMin;
+	sSec = sSec < 10 ? ("0" + sSec):sSec;
+
+	return String(sYear) + String(sMonth) + String(sDay) + String(sHour) + String(sMin) + String(sSec);
+}
 
 //Save project information
 oProject.getProjectId().then(function(sProjectId){	
@@ -137,9 +148,9 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 
 			//Check test kpi of today has been recorded or not
 			sSqlCheck = "SELECT tcid FROM " + sTestType +
-				   " WHERE pid=? AND timestamp LIKE '" + sTimestamp.slice(0,8) +"%'" +
+				   " WHERE pid=? AND type=? AND timestamp LIKE '" + sTimestamp.slice(0,8) +"%'" +
 				   " ORDER BY timestamp desc";
-		    aParamCheck = [sProjectId];
+		    aParamCheck = [sProjectId, sProjectType];
 		    oDB.query(sSqlCheck, aParamCheck, function(oError, aRow){
             	if(oError){
             		console.log("Check " + sProjectId + "-" + sTimestamp.slice(0,8) + " test kpi existence failed. Message: " + oError.message);
@@ -151,10 +162,10 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
             	if(aRow.length){ //Update the record with the latest test result
             		console.log("Update an existing " + sTestType +" test result: tcid = " + aRow[0].tcid + ", timestamp = " + sTimestamp);
             		sSqlSave = "UPDATE " + sTestType +
-            			   " SET pid=?, branch=?, passed=?, failed=?, skipped=?, assertion=?, timestamp=?" +
+            			   " SET pid=?, type=?, branch=?, passed=?, failed=?, skipped=?, assertion=?, timestamp=?" +
             			   (sTestType === Project.TestType.Unit ? ", inclstmtlines=?, inclstmtcover=?, allstmtlines=?, allstmtcover=?" : "") +
             			   " WHERE tcid=?";
-            		aParamSave = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
+            		aParamSave = [sProjectId, sProjectType, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
 		            			oKpi[sTestType].assertion, sTimestamp].concat(
 		            				(sTestType === Project.TestType.Unit ? aCoverage : []),
 		            				[aRow[0].tcid]
@@ -162,13 +173,13 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
             	}else{ //Insert a new test result
             		console.log("Create a new " + sTestType +" test result: timestamp = " + sTimestamp);
 					sSqlSave = "INSERT INTO " + sTestType + 
-					       "(pid, branch, passed, failed, skipped, assertion, timestamp" +
+					       "(pid, type, branch, passed, failed, skipped, assertion, timestamp" +
 					       (sTestType === Project.TestType.Unit ? ", inclstmtlines, inclstmtcover, allstmtlines, allstmtcover" : "") +
 					       ")" +
-					       " VALUES(?,?,?,?,?,?,?" +
+					       " VALUES(?,?,?,?,?,?,?,?" +
 					       (sTestType === Project.TestType.Unit ? ",?,?,?,?" : "") +
 					       ")";
-		            aParamSave = [sProjectId, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
+		            aParamSave = [sProjectId, sProjectType, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
 		            			oKpi[sTestType].assertion, sTimestamp].concat(
 		            				(sTestType === Project.TestType.Unit ? aCoverage : [])
 		            			);
