@@ -95,9 +95,9 @@ oProject.getProjectId().then(function(sProjectId){
     	var sSqlSave, aParamSave;
     	if(aRow.length === 0){ //Insert a new test result
     		var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
-    		console.log("Create a project, id: " + sProjectId + ", name: " + sProjectName);
-			sSqlSave = "INSERT INTO Project(pid, name) VALUES(?,?)";
-            aParamSave = [sProjectId, sProjectName];
+    		console.log("Create a project, id: " + sProjectId + ", name: " + sProjectName + ", type: " + sProjectType);
+			sSqlSave = "INSERT INTO Project(pid, name, type) VALUES(?,?,?)";
+            aParamSave = [sProjectId, sProjectName, sProjectType];
 
             var oDBSave = new DB({
 				name: "sccd"
