@@ -215,5 +215,7 @@ var oJob = new Job({
 	workSpace: sWorkSpace
 });
 
-oJob.deleteJobNoKeepFiles();
+if(sProjectType === Project.Type.FrontEnd){ //ABAP UT does not consume too much space. So we not do cleanup here. However daily job wil still cleanup its data
+	oJob.deleteJobNoKeepFiles();
+}
 oJob.deleteUIArtifact();
