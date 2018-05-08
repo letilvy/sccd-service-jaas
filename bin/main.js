@@ -33,10 +33,12 @@ if(Argv.h || Argv.help){
 
 var aArgv = process.argv.slice(2);
 
+var sWorkSpace = Argv.p || aArgv[0] || "./";
+//var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
+//var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+
 var oProject = new Project({
-	//workSpace: Argv.p || aArgv[0] || "./",
-	workSpace: "../data/workspace/B1_SMP_PUM", //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
-	//workSpace: "../data/workspace/BCD_ABAP_UT", //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+	workSpace: sWorkSpace,
 	projectId: Argv.i
 });
 
@@ -82,7 +84,7 @@ function getTimestamp(oDate){
 }
 
 //Save project information
-oProject.getProjectId().then(function(sProjectId){	
+oProject.getProjectId().then(function(sProjectId){
 	oDB.connect();
 	//Check project record exist or not
 	sSqlCheck = "SELECT pid FROM Project WHERE pid=?";
@@ -208,12 +210,10 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 });
 
 
-
+// Job cleanup because of jenkins memory space limitation
 var oJob = new Job({
-	//workSpace: Argv.p || aArgv[0] || "./",
-	workSpace: "../data/workspace/B1_SMP_PUM", //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
-	//workSpace: "../data/workspace/BCD_ABAP_UT", //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
-	projectId: Argv.i
+	workSpace: sWorkSpace
 });
 
 oJob.deleteJobNoKeepFiles();
+oJob.deleteUIArtifact();
