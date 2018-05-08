@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 var Project = require("../lib/project");
+var Job = require("../lib/job");
 var DB = require("../lib/db");
 var Argv = require("optimist").boolean("cors").argv;
 
@@ -33,9 +34,9 @@ if(Argv.h || Argv.help){
 var aArgv = process.argv.slice(2);
 
 var oProject = new Project({
-	workSpace: Argv.p || aArgv[0] || "./",
-	//workSpace: "../data/B1_SMP_PUM", //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
-	//workSpace: "../data/BCD_ABAP_UT", //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+	//workSpace: Argv.p || aArgv[0] || "./",
+	workSpace: "../data/workspace/B1_SMP_PUM", //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
+	//workSpace: "../data/workspace/BCD_ABAP_UT", //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
 	projectId: Argv.i
 });
 
@@ -205,3 +206,14 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 	console.log("Save test kpi failed: " + sReason);
 	oDB.close();
 });
+
+
+
+var oJob = new Job({
+	//workSpace: Argv.p || aArgv[0] || "./",
+	workSpace: "../data/workspace/B1_SMP_PUM", //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
+	//workSpace: "../data/workspace/BCD_ABAP_UT", //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+	projectId: Argv.i
+});
+
+oJob.deleteJobNoKeepFiles();
