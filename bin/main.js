@@ -33,9 +33,9 @@ if(Argv.h || Argv.help){
 
 var aArgv = process.argv.slice(2);
 
-var sWorkSpace = Argv.p || aArgv[0] || "./";
+//var sWorkSpace = Argv.p || aArgv[0] || "./";
 //var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
-//var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
 
 var oProject = new Project({
 	workSpace: sWorkSpace,
@@ -87,11 +87,11 @@ function getTimestamp(oDate){
 oProject.getProjectId().then(function(sProjectId){
 	oDB.connect();
 	//Check project record exist or not
-	sSqlCheck = "SELECT pid FROM Project WHERE pid=?";
-    aParamCheck = [sProjectId];
+	sSqlCheck = "SELECT pid FROM Project WHERE pid=? AND type=?";
+    aParamCheck = [sProjectId, sProjectType];
     oDB.query(sSqlCheck, aParamCheck, function(oError, aRow){
     	if(oError){
-    		console.log("Check project " + sProjectId + " existence failed. Message: " + oError.message);
+    		console.log("Check project " + sProjectId + " (type: " + sProjectType + ") existence failed. Message: " + oError.message);
     		return;
     	}
     	
@@ -111,11 +111,11 @@ oProject.getProjectId().then(function(sProjectId){
 	        		console.log("DB error:" + oError.message);
 	        		return;
 	        	}
-	        	console.log("Save project id: " + sProjectId + ", name: " + sProjectName + " successfully.");
+	        	console.log("Save project id: " + sProjectId + ", name: " + sProjectName + ", type: " + sProjectType + " successfully.");
 	        });
 	        oDBSave.close();
     	}else{
-    		console.log("Project " + sProjectId + " exist yet.");
+    		console.log("Project " + sProjectId + " (type: " + sProjectType + ") exist yet.");
     	}
     });          
 	oDB.close();
