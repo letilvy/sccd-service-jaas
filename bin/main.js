@@ -33,9 +33,9 @@ if(Argv.h || Argv.help){
 
 var aArgv = process.argv.slice(2);
 
-//var sWorkSpace = Argv.p || aArgv[0] || "./";
+var sWorkSpace = Argv.p || aArgv[0] || "./";
 //var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
-var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+//var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
 
 var oProject = new Project({
 	workSpace: sWorkSpace,
