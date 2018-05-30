@@ -3,6 +3,7 @@
 var Project = require("../lib/project");
 var Job = require("../lib/job");
 var DB = require("../lib/db");
+var ToolKit = require("../lib/toolkit");
 var Argv = require("optimist").boolean("cors").argv;
 
 /***
@@ -49,10 +50,6 @@ if(sProjectType === Project.Type.BackEnd && !Argv.i){
 	process.exit();
 }
 
-var oDB = new DB({
-	name: "sccd"
-});
-
 //${GIT_BRANCH} has a prefix "origin/", while ${GERRIT_BRANCH} does not
 var sBranch = "master";
 if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
@@ -66,75 +63,52 @@ if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
 }
 console.log("Get branch name: " + sBranch);
 
-function getTimestamp(oDate){
-	var sYear = oDate.getFullYear();
-	var sMonth = oDate.getMonth() + 1;
-	var sDay = oDate.getDate();
-	var sHour = oDate.getHours();
-	var sMin = oDate.getMinutes();
-	var sSec = oDate.getSeconds();
-	
-	sMonth = sMonth < 10 ? ("0" + sMonth):sMonth;
-	sDay = sDay < 10 ? ("0" + sDay):sDay;
-	sHour = sHour < 10 ? ("0" + sHour):sHour;
-	sMin = sMin < 10 ? ("0" + sMin):sMin;
-	sSec = sSec < 10 ? ("0" + sSec):sSec;
-
-	return String(sYear) + String(sMonth) + String(sDay) + String(sHour) + String(sMin) + String(sSec);
-}
-
 //Save project information
 oProject.getProjectId().then(function(sProjectId){
-	oDB.connect();
 	//Check project record exist or not
-	sSqlCheck = "SELECT pid FROM Project WHERE pid=? AND type=?";
-    aParamCheck = [sProjectId, sProjectType];
-    oDB.query(sSqlCheck, aParamCheck, function(oError, aRow){
-    	if(oError){
-    		console.log("Check project " + sProjectId + " (type: " + sProjectType + ") existence failed. Message: " + oError.message);
-    		return;
-    	}
-    	
-    	var sSqlSave, aParamSave;
-    	if(aRow.length === 0){ //Insert a new test result
-    		var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
-    		console.log("Create a project, id: " + sProjectId + ", name: " + sProjectName + ", type: " + sProjectType);
-			sSqlSave = "INSERT INTO Project(pid, name, type) VALUES(?,?,?)";
-            aParamSave = [sProjectId, sProjectName, sProjectType];
+	ToolKit.selectDBItem({
+		table: "Project",
+		values: ["pid"],
+		keys: {
+			pid: sProjectId,
+			type: sProjectType
+		},
+		fnCallback: function(oError, aRow){
+	    	if(oError){
+	    		console.log("Check project " + sProjectId + " (type: " + sProjectType + ") existence failed. Message: " + oError.message);
+	    		return;
+	    	}
+	    	
+	    	if(aRow.length === 0){ //Insert a new test result
+	    		var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
+	    		console.log("Create a project, id: " + sProjectId + ", name: " + sProjectName + ", type: " + sProjectType);
 
-            var oDBSave = new DB({
-				name: "sccd"
-			});
-			oDBSave.connect();
-	    	oDBSave.query(sSqlSave, aParamSave, function(oError, oResult){
-	        	if(oError){
-	        		console.log("DB error:" + oError.message);
-	        		return;
-	        	}
-	        	console.log("Save project id: " + sProjectId + ", name: " + sProjectName + ", type: " + sProjectType + " successfully.");
-	        });
-	        oDBSave.close();
-    	}else{
-    		console.log("Project " + sProjectId + " (type: " + sProjectType + ") exist yet.");
-    	}
-    });          
-	oDB.close();
+		        ToolKit.insertDBItem({
+	    			table: "Project",
+	    			values: {
+						pid: sProjectId,
+						name: sProjectName,
+						type: sProjectType
+	    			}
+	    		});
+	    	}else{
+	    		console.log("Project " + sProjectId + " (type: " + sProjectType + ") exist yet.");
+	    	}
+	    }
+	});
 }).catch(function(sReason){
 	console.log("Save project information failed: " + sReason);
-	oDB.close();
 });
 
 
 //Save project test KPI
 Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCoverage()]).then(function(aResult){
 	var sProjectId = aResult[0], oKpi = aResult[1], oCoverage = aResult[2];
-	var sTimestamp = getTimestamp(new Date());
+	var sTimestamp = ToolKit.getTimestamp(new Date());
 
 	console.log("Get project id: " + sProjectId);
 
-	oDB.connect();
 	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey){
-		var sSqlCheck, aParamCheck;
 		var sTestType = Project.TestType[sTestTypeKey];
 
 		if(oKpi[sTestType].assertion){
@@ -149,72 +123,140 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 															"all stmt coverage-" + oCoverage.All.lineRate):"")
 														);
 
-			//Check test kpi of today has been recorded or not
-			sSqlCheck = "SELECT tcid FROM " + sTestType +
-				   " WHERE pid=? AND type=? AND timestamp LIKE '" + sTimestamp.slice(0,8) +"%'" +
-				   " ORDER BY timestamp desc";
-		    aParamCheck = [sProjectId, sProjectType];
-		    oDB.query(sSqlCheck, aParamCheck, function(oError, aRow){
-            	if(oError){
-            		console.log("Check " + sProjectId + "-" + sTimestamp.slice(0,8) + " test kpi existence failed. Message: " + oError.message);
-            		return;
-            	}
-            	
-            	var sSqlSave, aParamSave;
-            	var aCoverage = [oCoverage.Included.validLines, oCoverage.Included.lineRate, oCoverage.All.validLines, oCoverage.All.lineRate];
-            	if(aRow.length){ //Update the record with the latest test result
-            		console.log("Update an existing " + sTestType +" test result: tcid = " + aRow[0].tcid + ", timestamp = " + sTimestamp);
-            		sSqlSave = "UPDATE " + sTestType +
-            			   " SET pid=?, type=?, branch=?, passed=?, failed=?, skipped=?, assertion=?, timestamp=?" +
-            			   (sTestType === Project.TestType.Unit ? ", inclstmtlines=?, inclstmtcover=?, allstmtlines=?, allstmtcover=?" : "") +
-            			   " WHERE tcid=?";
-            		aParamSave = [sProjectId, sProjectType, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
-		            			oKpi[sTestType].assertion, sTimestamp].concat(
-		            				(sTestType === Project.TestType.Unit ? aCoverage : []),
-		            				[aRow[0].tcid]
-		            			);
-            	}else{ //Insert a new test result
-            		console.log("Create a new " + sTestType +" test result: timestamp = " + sTimestamp);
-					sSqlSave = "INSERT INTO " + sTestType + 
-					       "(pid, type, branch, passed, failed, skipped, assertion, timestamp" +
-					       (sTestType === Project.TestType.Unit ? ", inclstmtlines, inclstmtcover, allstmtlines, allstmtcover" : "") +
-					       ")" +
-					       " VALUES(?,?,?,?,?,?,?,?" +
-					       (sTestType === Project.TestType.Unit ? ",?,?,?,?" : "") +
-					       ")";
-		            aParamSave = [sProjectId, sProjectType, sBranch, oKpi[sTestType].passed, oKpi[sTestType].failed, oKpi[sTestType].skipped,
-		            			oKpi[sTestType].assertion, sTimestamp].concat(
-		            				(sTestType === Project.TestType.Unit ? aCoverage : [])
-		            			);
-            	}
-
-				var oDBSave = new DB({
-					name: "sccd"
-				});
-				oDBSave.connect();
-            	oDBSave.query(sSqlSave, aParamSave, function(oError, oResult){
+			ToolKit.selectDBItem({
+				table: sTestType,
+				values: ["tcid"],
+				keys: {
+					pid: sProjectId,
+					type: sProjectType
+				},
+				specialCondition: "timestamp LIKE '" + sTimestamp.slice(0,8) +"%'",
+				fnCallback: function(oError, aRow){
 	            	if(oError){
-	            		console.log("DB error:" + oError.message);
+	            		console.log("Check " + sProjectId + "-" + sTimestamp.slice(0,8) + " test kpi existence failed. Message: " + oError.message);
 	            		return;
 	            	}
-	            	console.log("Save " + sTestType +" test kpi successfully.");
-	            });
-	            oDBSave.close();
-            });
+	            	
+	            	if(aRow.length){ //Update the record with the latest test result
+	            		console.log("Update an existing " + sTestType +" test result: tcid = " + aRow[0].tcid + ", timestamp = " + sTimestamp);
+			            ToolKit.updateDBItem({
+			    			table: sTestType,
+			    			keys: {
+			    				tcid: aRow[0].tcid
+			    			},
+			    			values: Object.assign({
+								pid: sProjectId,
+								type: sProjectType,
+								branch: sBranch,
+								passed: oKpi[sTestType].passed,
+								failed: oKpi[sTestType].failed,
+								skipped: oKpi[sTestType].skipped,
+								assertion: oKpi[sTestType].assertion,
+								timestamp: sTimestamp
+			    			}, (sTestType === Project.TestType.Unit ? {
+			    				inclstmtlines: oCoverage.Included.validLines,
+			    				inclstmtcover: oCoverage.Included.lineRate,
+			    				allstmtlines: oCoverage.All.validLines,
+			    				allstmtcover: oCoverage.All.lineRate
+			    			}:{}))
+			    		});
+	            	}else{ //Insert a new test result
+	            		console.log("Create a new " + sTestType +" test result: timestamp = " + sTimestamp);
+			            ToolKit.insertDBItem({
+			    			table: sTestType,
+			    			values: Object.assign({
+								pid: sProjectId,
+								type: sProjectType,
+								branch: sBranch,
+								passed: oKpi[sTestType].passed,
+								failed: oKpi[sTestType].failed,
+								skipped: oKpi[sTestType].skipped,
+								assertion: oKpi[sTestType].assertion,
+								timestamp: sTimestamp
+			    			}, (sTestType === Project.TestType.Unit ? {
+			    				inclstmtlines: oCoverage.Included.validLines,
+			    				inclstmtcover: oCoverage.Included.lineRate,
+			    				allstmtlines: oCoverage.All.validLines,
+			    				allstmtcover: oCoverage.All.lineRate
+			    			}:{}))
+			    		});
+	            	}
+				}
+			});
 		}
 	});
-	oDB.close();
 }).catch(function(sReason){
 	console.log("Save test kpi failed: " + sReason);
-	oDB.close();
 });
 
 
-// Job cleanup because of jenkins memory space limitation
+
 var oJob = new Job({
 	workSpace: sWorkSpace
 });
 
+oProject.getProjectId().then(function(sProjectId){
+	var sTestType = null;
+	(Object.keys(Project.TestType)).every(function(sTestTypeKey){
+		if(!!oProject.getTestReportPath(Project.TestType[sTestTypeKey])){
+			sTestType = Project.TestType[sTestTypeKey];
+			return false;
+		}
+	});
+	if(!sTestType){
+		console.log("Cannot determine test type of the job.");
+		return;
+	}
+
+	ToolKit.selectDBItem({
+		table: "Job",
+		values: ["name"],
+		keys: {
+			pid: sProjectId,
+			ptype: sProjectType,
+			ttype: sTestType
+		},
+		fnCallback: function(oError, aRow){
+			var sJobName = oJob.getJobBaseName();
+			if(oError){
+	    		console.log("Check job " + sJobName + " (project: " + sProjectId + ", type: " + sProjectType + ", test: " + sTestType + ") existence failed. Message: " + oError.message);
+	    		return;
+	    	}
+	    	
+	    	if(aRow.length === 0){
+	    		ToolKit.insertDBItem({
+	    			table: "Job",
+	    			values: {
+	    				pid: sProjectId,
+	    				ptype: sProjectType,
+	    				ttype: sTestType,
+	    				name: sJobName,
+	    				lastbuild: oJob.getLastBuildNumber()
+	    			}
+	    		});
+	    	}else if(aRow[0].name !== sJobName){
+	    		ToolKit.updateDBItem({
+	    			table: "Job",
+	    			keys: {
+	    				pid: sProjectId,
+	    				ptype: sProjectType,
+	    				ttype: sTestType
+	    			},
+	    			values: {
+						name: sJobName,
+	    				lastbuild: oJob.getLastBuildNumber()
+	    			}
+	    		});
+	    	}else{
+	    		console.log("Job " + sJobName + " (project: " + sProjectId + ", type: " + sProjectType + ", test: " + sTestType + ") exist yet.");
+	    	}
+		}
+	});
+}).catch(function(sReason){
+	console.log("Save job information failed: " + sReason);
+});
+
+// Job cleanup because of jenkins memory space limitation
 if(sProjectType === Project.Type.FrontEnd){ //ABAP UT does not consume too much space. So we not do cleanup here. However daily job wil still cleanup its data
 	oJob.deleteJobNoKeepFiles();
 }
