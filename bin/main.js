@@ -34,8 +34,8 @@ if(Argv.h || Argv.help){
 
 var aArgv = process.argv.slice(2);
 
-var sWorkSpace = Argv.p || aArgv[0] || "./";
-//var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
+//var sWorkSpace = Argv.p || aArgv[0] || "./";
+var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
 //var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
 
 var oProject = new Project({
@@ -65,8 +65,19 @@ console.log("Get branch name: " + sBranch);
 
 //Save project information
 oProject.getProjectId().then(function(sProjectId){
-	//Check project record exist or not
-	ToolKit.selectDBItem({
+	var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
+	ToolKit.insertNewUpdateExistDBItem(false, {
+		table: "Project",
+		keys: {
+			pid: sProjectId,
+			type: sProjectType
+		},
+		values: {
+			name: sProjectName
+		}
+	});
+
+	/*ToolKit.selectDBItem({
 		table: "Project",
 		values: ["pid"],
 		keys: {
@@ -95,7 +106,7 @@ oProject.getProjectId().then(function(sProjectId){
 	    		console.log("Project " + sProjectId + " (type: " + sProjectType + ") exist yet.");
 	    	}
 	    }
-	});
+	});*/
 }).catch(function(sReason){
 	console.log("Save project information failed: " + sReason);
 });
