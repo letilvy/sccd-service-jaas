@@ -34,8 +34,8 @@ if(Argv.h || Argv.help){
 
 var aArgv = process.argv.slice(2);
 
-//var sWorkSpace = Argv.p || aArgv[0] || "./";
-var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
+var sWorkSpace = Argv.p || aArgv[0] || "./";
+//var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
 //var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
 
 var oProject = new Project({
@@ -66,7 +66,8 @@ console.log("Get branch name: " + sBranch);
 //Save project information
 oProject.getProjectId().then(function(sProjectId){
 	var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
-	ToolKit.insertNewUpdateExistDBItem(false, {
+	var oDB = new DB({ name: "sccd" });
+	oDB.insertNewUpdateExistDBItem(false, {
 		table: "Project",
 		keys: {
 			pid: sProjectId,
@@ -76,37 +77,6 @@ oProject.getProjectId().then(function(sProjectId){
 			name: sProjectName
 		}
 	});
-
-	/*ToolKit.selectDBItem({
-		table: "Project",
-		values: ["pid"],
-		keys: {
-			pid: sProjectId,
-			type: sProjectType
-		},
-		fnCallback: function(oError, aRow){
-	    	if(oError){
-	    		console.log("Check project " + sProjectId + " (type: " + sProjectType + ") existence failed. Message: " + oError.message);
-	    		return;
-	    	}
-	    	
-	    	if(aRow.length === 0){ //Insert a new test result
-	    		var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
-	    		console.log("Create a project, id: " + sProjectId + ", name: " + sProjectName + ", type: " + sProjectType);
-
-		        ToolKit.insertDBItem({
-	    			table: "Project",
-	    			values: {
-						pid: sProjectId,
-						name: sProjectName,
-						type: sProjectType
-	    			}
-	    		});
-	    	}else{
-	    		console.log("Project " + sProjectId + " (type: " + sProjectType + ") exist yet.");
-	    	}
-	    }
-	});*/
 }).catch(function(sReason){
 	console.log("Save project information failed: " + sReason);
 });
@@ -117,13 +87,11 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 	var sProjectId = aResult[0], oKpi = aResult[1], oCoverage = aResult[2];
 	var sTimestamp = ToolKit.getTimestamp(new Date());
 
-	console.log("Get project id: " + sProjectId);
-
 	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey){
 		var sTestType = Project.TestType[sTestTypeKey];
 
 		if(oKpi[sTestType].assertion){
-			console.log("Get " + sTestType + " test kpi: passed-" + oKpi[sTestType].passed + ", " +
+			/*console.log("Get " + sTestType + " test kpi: passed-" + oKpi[sTestType].passed + ", " +
 														"failed-" + oKpi[sTestType].failed + ", " +
 														"skipped-" + oKpi[sTestType].skipped + ", " +
 														"assertion-" + oKpi[sTestType].assertion +
@@ -132,67 +100,29 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 															"included stmt coverage-" + oCoverage.Included.lineRate + ", " + 
 															"all stmt lines-" + oCoverage.All.validLines + ", " + 
 															"all stmt coverage-" + oCoverage.All.lineRate):"")
-														);
-
-			ToolKit.selectDBItem({
+														);*/
+			var oDB = new DB({ name: "sccd" });
+			oDB.insertNewUpdateExistDBItem(true, {
 				table: sTestType,
-				values: ["tcid"],
 				keys: {
 					pid: sProjectId,
-					type: sProjectType
-				},
-				specialCondition: "timestamp LIKE '" + sTimestamp.slice(0,8) +"%'",
-				fnCallback: function(oError, aRow){
-	            	if(oError){
-	            		console.log("Check " + sProjectId + "-" + sTimestamp.slice(0,8) + " test kpi existence failed. Message: " + oError.message);
-	            		return;
-	            	}
-	            	
-	            	if(aRow.length){ //Update the record with the latest test result
-	            		console.log("Update an existing " + sTestType +" test result: tcid = " + aRow[0].tcid + ", timestamp = " + sTimestamp);
-			            ToolKit.updateDBItem({
-			    			table: sTestType,
-			    			keys: {
-			    				tcid: aRow[0].tcid
-			    			},
-			    			values: Object.assign({
-								pid: sProjectId,
-								type: sProjectType,
-								branch: sBranch,
-								passed: oKpi[sTestType].passed,
-								failed: oKpi[sTestType].failed,
-								skipped: oKpi[sTestType].skipped,
-								assertion: oKpi[sTestType].assertion,
-								timestamp: sTimestamp
-			    			}, (sTestType === Project.TestType.Unit ? {
-			    				inclstmtlines: oCoverage.Included.validLines,
-			    				inclstmtcover: oCoverage.Included.lineRate,
-			    				allstmtlines: oCoverage.All.validLines,
-			    				allstmtcover: oCoverage.All.lineRate
-			    			}:{}))
-			    		});
-	            	}else{ //Insert a new test result
-	            		console.log("Create a new " + sTestType +" test result: timestamp = " + sTimestamp);
-			            ToolKit.insertDBItem({
-			    			table: sTestType,
-			    			values: Object.assign({
-								pid: sProjectId,
-								type: sProjectType,
-								branch: sBranch,
-								passed: oKpi[sTestType].passed,
-								failed: oKpi[sTestType].failed,
-								skipped: oKpi[sTestType].skipped,
-								assertion: oKpi[sTestType].assertion,
-								timestamp: sTimestamp
-			    			}, (sTestType === Project.TestType.Unit ? {
-			    				inclstmtlines: oCoverage.Included.validLines,
-			    				inclstmtcover: oCoverage.Included.lineRate,
-			    				allstmtlines: oCoverage.All.validLines,
-			    				allstmtcover: oCoverage.All.lineRate
-			    			}:{}))
-			    		});
-	            	}
-				}
+					type: sProjectType,
+    				tcid: undefined  //auto_increment DB field MUST BE passed as undefined
+    			},
+    			specialCondition: "timestamp LIKE '" + sTimestamp.slice(0,8) +"%'",
+				values: Object.assign({
+					branch: sBranch,
+					passed: oKpi[sTestType].passed,
+					failed: oKpi[sTestType].failed,
+					skipped: oKpi[sTestType].skipped,
+					assertion: oKpi[sTestType].assertion,
+					timestamp: sTimestamp
+    			}, (sTestType === Project.TestType.Unit ? {
+    				inclstmtlines: oCoverage.Included.validLines,
+    				inclstmtcover: oCoverage.Included.lineRate,
+    				allstmtlines: oCoverage.All.validLines,
+    				allstmtcover: oCoverage.All.lineRate
+    			}:{}))
 			});
 		}
 	});
@@ -219,48 +149,18 @@ oProject.getProjectId().then(function(sProjectId){
 		return;
 	}
 
-	ToolKit.selectDBItem({
+	var sJobName = oJob.getJobBaseName();
+	var oDB = new DB({ name: "sccd" });
+	oDB.insertNewUpdateExistDBItem(true, {
 		table: "Job",
-		values: ["name"],
 		keys: {
 			pid: sProjectId,
 			ptype: sProjectType,
 			ttype: sTestType
 		},
-		fnCallback: function(oError, aRow){
-			var sJobName = oJob.getJobBaseName();
-			if(oError){
-	    		console.log("Check job " + sJobName + " (project: " + sProjectId + ", type: " + sProjectType + ", test: " + sTestType + ") existence failed. Message: " + oError.message);
-	    		return;
-	    	}
-	    	
-	    	if(aRow.length === 0){
-	    		ToolKit.insertDBItem({
-	    			table: "Job",
-	    			values: {
-	    				pid: sProjectId,
-	    				ptype: sProjectType,
-	    				ttype: sTestType,
-	    				name: sJobName,
-	    				lastbuild: oJob.getLastBuildNumber()
-	    			}
-	    		});
-	    	}else if(aRow[0].name !== sJobName){
-	    		ToolKit.updateDBItem({
-	    			table: "Job",
-	    			keys: {
-	    				pid: sProjectId,
-	    				ptype: sProjectType,
-	    				ttype: sTestType
-	    			},
-	    			values: {
-						name: sJobName,
-	    				lastbuild: oJob.getLastBuildNumber()
-	    			}
-	    		});
-	    	}else{
-	    		console.log("Job " + sJobName + " (project: " + sProjectId + ", type: " + sProjectType + ", test: " + sTestType + ") exist yet.");
-	    	}
+		values: {
+			name: sJobName,
+			lastbuild: oJob.getLastBuildNumber()
 		}
 	});
 }).catch(function(sReason){
