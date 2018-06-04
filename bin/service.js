@@ -90,11 +90,15 @@ var oServer = HTTP.createServer(function(request, response){
                     break;
 
                 case "F4ProjectSet":
-                    sQuery = "select p.pid projectId, p.name projectName, p.contact projectContact, p.team teamId, t.name teamName, t.contact teamContact from Project p left join Team t on (p.team = t.tid)";
+                    sQuery = "SELECT p.pid projectId, p.name projectName, p.contact projectContact, p.team teamId, t.name teamName, t.contact teamContact FROM Project p LEFT JOIN Team t ON (p.team = t.tid)";
+                    break;
+
+                case "JobSet": 
+                    sQuery = "SELECT name, lastbuild FROM Job WHERE pid = '" + oUrlParam.pid + "' AND ptype='" + oUrlParam.ptype + "' AND ttype='" + oUrlParam.ttype + "'";
                     break;
 
                 case "TeamSet":
-                    sQuery = "select * from Team";
+                    sQuery = "SELECT * FROM Team";
                     break;
             }
 
