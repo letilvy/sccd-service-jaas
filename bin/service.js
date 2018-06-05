@@ -103,6 +103,7 @@ var oServer = HTTP.createServer(function(request, response){
             }
 
             if(sQuery){
+                //var oDB = new DB({ name: "sccd" });
                 sqlPromise(sQuery).then(function(aResult){
                     response.end(JSON.stringify(bEntity ? aResult[0] : aResult));
                 }, function(sErrorMsg){
@@ -117,7 +118,6 @@ var oServer = HTTP.createServer(function(request, response){
 function sqlPromise(sSql){
     return new Promise(function(resolve, reject){
         try{
-            /*var oDB = new DB({name: "sccd"});*/
             var oDB = MySql.createConnection({
                 host: "localhost",
                 user: "guest",
