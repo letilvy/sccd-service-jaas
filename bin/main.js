@@ -26,6 +26,7 @@ if(Argv.h || Argv.help){
 	    '  -p           Jenkins job workspace path. e.g.:/var/lib/jenkins/workspace/B1_SMP_PUM',
 	    '  -i           Project id. This is mandatory when it is a back-end service job for UI5 app',
 	    '  -b           Branch which test case run on [master]',
+	    '  -k --keep    Keep jenkins job log files: artifact, builds, maven repository...',
 	    '  -h --help    Print this list and exit.'
   	].join('\n'));
   	process.exit();
@@ -167,8 +168,10 @@ oProject.getProjectId().then(function(sProjectId){
 	console.log("Save job information failed: " + sReason);
 });
 
-// Job cleanup because of jenkins memory space limitation
-if(sProjectType === Project.Type.FrontEnd){ //ABAP UT does not consume too much space. So we not do cleanup here. However daily job wil still cleanup its data
-	oJob.deleteJobNoKeepFiles();
+if(!Argv.k && !Argv.keep){
+	// Job cleanup because of jenkins memory space limitation
+	if(sProjectType === Project.Type.FrontEnd){ //ABAP UT does not consume too much space. So we not do cleanup here. However daily job wil still cleanup its data
+		oJob.deleteJobNoKeepFiles();
+	}
+	oJob.deleteUIArtifact();
 }
-oJob.deleteUIArtifact();
