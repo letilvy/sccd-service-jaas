@@ -3,6 +3,7 @@
 var Project = require("../lib/project");
 var Job = require("../lib/job");
 var DB = require("../lib/db");
+// var hanaDb = require("../lib/hanadb");
 var ToolKit = require("../lib/toolkit");
 var Argv = require("optimist").boolean("cors").argv;
 
@@ -37,7 +38,7 @@ var aArgv = process.argv.slice(2);
 
 var sWorkSpace = Argv.p || aArgv[0] || "./";
 //var sWorkSpace = "../data/workspace/B1_SMP_PUM"; //Use "../data/B1_SMP_PUM" for UI5 code debug purpose
-//var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
+// var sWorkSpace = "../data/workspace/BCD_ABAP_UT"; //Use "../data/BCD_ABAP_UT" for ABAP code debug purpose
 
 var oProject = new Project({
 	workSpace: sWorkSpace,
@@ -79,6 +80,15 @@ oProject.getProjectId().then(function(sProjectId){
 			name: sProjectName
 		}
 	});
+
+// Sherry Test
+	// var oHana = new hanaDb();
+	// var oContent = {
+	// 	"pid": sProjectId,
+	// 	"type": sProjectType,
+	// 	"name": sProjectName
+	// }
+	// oHana.insertNewUpdateExistDBItem("ProjectsSet", oContent);
 
 }).catch(function(sReason){
 	console.log("Save project information failed: " + sReason);
