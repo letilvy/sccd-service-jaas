@@ -66,7 +66,7 @@ console.log("Get branch name: " + sBranch);
 
 //Save project information
 oProject.getProjectId().then(function(sProjectId){
-
+	var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
 	var oHana = new hanaDb();
 	var oContent = {
 		"ProjectId": sProjectId,
