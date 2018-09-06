@@ -73,7 +73,6 @@ oProject.getProjectId().then(function(sProjectId){
 		"Type": sProjectType,
 		"Name": sProjectName
 	}
-	// console.log(oContent);
 	oHana.post("ProjectSet", oContent);
 
 }).catch(function(sReason){
@@ -92,8 +91,8 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 		if(oKpi[sTestType].assertion){
 			var oHana = new hanaDb();
 			var oContent = Object.assign({
-				"Guid": undefined,
-				"Projectid": sProjectId,
+				"Guid": "",
+				"ProjectId": sProjectId,
 				"Type": sProjectType,
 				"Branch": sBranch,
 				"Passed": oKpi[sTestType].passed,
@@ -107,12 +106,10 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 				"Allstmtlines": oCoverage.All.validLines,
 				"Allstmtcover": oCoverage.All.lineRate
 			}:{}));
-			// console.log(sTestType + ":\n");
+
 			if (sTestType == "UT") {
-				// console.log(oContent);
 				oHana.post("UTSet", oContent);
 			} else if (sTestType == "IT") {
-				// console.log(oContent);
 				oHana.post("ITSet", oContent);
 			}
 		}
@@ -120,8 +117,6 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 }).catch(function(sReason){
 	console.log("Save test kpi failed: " + sReason);
 });
-
-
 
 var oJob = new Job({
 	workSpace: sWorkSpace
@@ -151,7 +146,6 @@ oProject.getProjectId().then(function(sProjectId){
 		"LastBuild": oJob.getLastBuildNumber()
 	}
 	oHana.post("JobSet", oContent);
-
 
 }).catch(function(sReason){
 	console.log("Save job information failed: " + sReason);
