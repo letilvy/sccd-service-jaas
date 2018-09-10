@@ -2,7 +2,7 @@
 
 var Project = require("../lib/project");
 var Job = require("../lib/job");
-var hanaDb = require("../lib/hanadb");
+var HanaDB = require("../lib/hanadb");
 var ToolKit = require("../lib/toolkit");
 var Argv = require("optimist").boolean("cors").argv;
 
@@ -67,7 +67,7 @@ console.log("Get branch name: " + sBranch);
 //Save project information
 oProject.getProjectId().then(function(sProjectId){
 	var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
-	var oHana = new hanaDb();
+	var oHana = new HanaDB();
 	var oContent = {
 		"ProjectId": sProjectId,
 		"Type": sProjectType,
@@ -89,7 +89,7 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 		var sTestType = Project.TestType[sTestTypeKey];
 
 		if(oKpi[sTestType].assertion){
-			var oHana = new hanaDb();
+			var oHana = new HanaDB();
 			var oContent = Object.assign({
 				"Guid": "",
 				"ProjectId": sProjectId,
@@ -137,7 +137,7 @@ oProject.getProjectId().then(function(sProjectId){
 
 	var sJobName = oJob.getJobBaseName();
 
-	var oHana = new hanaDb();
+	var oHana = new HanaDB();
 	var oContent = {
 		"ProjectId": sProjectId,
 		"ProjectType": sProjectType,
