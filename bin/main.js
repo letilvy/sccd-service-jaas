@@ -3,6 +3,7 @@
 var Project = require("../lib/project");
 var Job = require("../lib/job");
 var DB = require("../lib/db");
+var HanaDB = require("../lib/hanadb");
 var ToolKit = require("../lib/toolkit");
 var Argv = require("optimist").boolean("cors").argv;
 
@@ -17,19 +18,19 @@ var Argv = require("optimist").boolean("cors").argv;
 	  sccd -p <jenkins_job_workspace_path> -b <branch_name> -i <project_id> //on jenkins server
 	You can get the first CLI parameter through process.argv[2]
 */
-if(Argv.h || Argv.help){
-  	console.log([
-  		'',
-	    'usage: node main.js [options]',
-	    '',
-	    'options:',
-	    '  -p           Jenkins job workspace path. e.g.:/var/lib/jenkins/workspace/B1_SMP_PUM',
-	    '  -i           Project id. This is mandatory when it is a back-end service job for UI5 app',
-	    '  -b           Branch which test case run on [master]',
-	    '  -k --keep    Keep jenkins job log files: artifact, builds, maven repository...',
-	    '  -h --help    Print this list and exit.'
-  	].join('\n'));
-  	process.exit();
+if (Argv.h || Argv.help) {
+	console.log([
+		'',
+		'usage: node main.js [options]',
+		'',
+		'options:',
+		'  -p           Jenkins job workspace path. e.g.:/var/lib/jenkins/workspace/B1_SMP_PUM',
+		'  -i           Project id. This is mandatory when it is a back-end service job for UI5 app',
+		'  -b           Branch which test case run on [master]',
+		'  -k --keep    Keep jenkins job log files: artifact, builds, maven repository...',
+		'  -h --help    Print this list and exit.'
+	].join('\n'));
+	process.exit();
 }
 
 
@@ -46,29 +47,32 @@ var oProject = new Project({
 
 var sProjectType = oProject.getProjectType();
 //Need to specify project id when run sccd command for an back-end jenkins job
-if(sProjectType === Project.Type.BackEnd && !Argv.i){
+if (sProjectType === Project.Type.BackEnd && !Argv.i) {
 	console.log("Project id is mandatory when it is a back-end service job for UI5 app.");
 	process.exit();
 }
 
 //${GIT_BRANCH} has a prefix "origin/", while ${GERRIT_BRANCH} does not
 var sBranch = "master";
-if(Argv.b && Argv.b.match(/^.*\/(\w+)$/)){
+if (Argv.b && Argv.b.match(/^.*\/(\w+)$/)) {
 	sBranch = (Argv.b.match(/^.*\/(\w+)$/))[1];
-}else if(Argv.b){
+} else if (Argv.b) {
 	sBranch = Argv.b;
-}else if(aArgv[1] && aArgv[1].match(/^.*\/(\w+)$/)){
+} else if (aArgv[1] && aArgv[1].match(/^.*\/(\w+)$/)) {
 	sBranch = (aArgv[1].match(/^.*\/(\w+)$/))[1];
-}else if(aArgv[1]){
+} else if (aArgv[1]) {
 	sBranch = aArgv[1];
 }
 console.log("Get branch name: " + sBranch);
 
 //Save project information
-oProject.getProjectId().then(function(sProjectId){
-	var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".")+1);
-	console.log("sProjectId: " + sProjectId);
-	var oDB = new DB({ name: "sccd" });
+oProject.getProjectId().then(function(sProjectId) {
+	var sProjectName = sProjectId.substr(sProjectId.lastIndexOf(".") + 1);
+
+	/*  MySQL DB  */
+	var oDB = new DB({
+		name: "sccd"
+	});
 	oDB.insertNewUpdateExistDBItem(false, {
 		table: "Project",
 		keys: {
@@ -80,21 +84,32 @@ oProject.getProjectId().then(function(sProjectId){
 		}
 	});
 
-}).catch(function(sReason){
+	/*  Hana DB  */
+	// var oHana = new HanaDB();
+	// var oContent = {
+	// 	"ProjectId": sProjectId,
+	// 	"Type": sProjectType,
+	// 	"Name": sProjectName
+	// }
+	// oHana.post("ProjectSet", oContent);
+
+}).catch(function(sReason) {
 	console.log("Save project information failed: " + sReason);
 });
 
 
 //Save project test KPI
-Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCoverage()]).then(function(aResult){
-	var sProjectId = aResult[0], oKpi = aResult[1], oCoverage = aResult[2];
+Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCoverage()]).then(function(aResult) {
+	var sProjectId = aResult[0],
+		oKpi = aResult[1],
+		oCoverage = aResult[2];
 	var sTimestamp = ToolKit.getTimestamp(new Date());
 
-	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey){
+	(Object.keys(Project.TestType)).forEach(function(sTestTypeKey) {
 		var sTestType = Project.TestType[sTestTypeKey];
 
-		if(oKpi[sTestType].assertion){
-			console.log("Get " + sTestType + " test kpi: passed-" + oKpi[sTestType].passed + ", " +
+		if (oKpi[sTestType].assertion) {
+			/*console.log("Get " + sTestType + " test kpi: passed-" + oKpi[sTestType].passed + ", " +
 														"failed-" + oKpi[sTestType].failed + ", " +
 														"skipped-" + oKpi[sTestType].skipped + ", " +
 														"assertion-" + oKpi[sTestType].assertion +
@@ -103,16 +118,20 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 															"included stmt coverage-" + oCoverage.Included.lineRate + ", " + 
 															"all stmt lines-" + oCoverage.All.validLines + ", " + 
 															"all stmt coverage-" + oCoverage.All.lineRate):"")
-														);
-			var oDB = new DB({ name: "sccd" });
+														);*/
+
+			/*  MySQL DB  */
+			var oDB = new DB({
+				name: "sccd"
+			});
 			oDB.insertNewUpdateExistDBItem(true, {
 				table: sTestType,
 				keys: {
 					pid: sProjectId,
 					type: sProjectType,
-    				tcid: undefined  //auto_increment DB field MUST BE passed as undefined
-    			},
-    			specialCondition: "timestamp LIKE '" + sTimestamp.slice(0,8) +"%'",
+					tcid: undefined //auto_increment DB field MUST BE passed as undefined
+				},
+				specialCondition: "timestamp LIKE '" + sTimestamp.slice(0, 8) + "%'",
 				values: Object.assign({
 					branch: sBranch,
 					passed: oKpi[sTestType].passed,
@@ -120,16 +139,42 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 					skipped: oKpi[sTestType].skipped,
 					assertion: oKpi[sTestType].assertion,
 					timestamp: sTimestamp
-    			}, (sTestType === Project.TestType.Unit ? {
-    				inclstmtlines: oCoverage.Included.validLines,
-    				inclstmtcover: oCoverage.Included.lineRate,
-    				allstmtlines: oCoverage.All.validLines,
-    				allstmtcover: oCoverage.All.lineRate
-    			}:{}))
+				}, (sTestType === Project.TestType.Unit ? {
+					inclstmtlines: oCoverage.Included.validLines,
+					inclstmtcover: oCoverage.Included.lineRate,
+					allstmtlines: oCoverage.All.validLines,
+					allstmtcover: oCoverage.All.lineRate
+				} : {}))
 			});
+
+			/*  Hana DB  */
+			// var oHana = new HanaDB();
+			// var oContent = Object.assign({
+			// 	"Guid": "",
+			// 	"ProjectId": sProjectId,
+			// 	"Type": sProjectType,
+			// 	"Branch": sBranch,
+			// 	"Passed": oKpi[sTestType].passed,
+			// 	"Failed": oKpi[sTestType].failed,
+			// 	"Skipped": oKpi[sTestType].skipped,
+			// 	"Assertion": oKpi[sTestType].assertion,
+			// 	"Timestamp": sTimestamp
+			// }, (sTestType === Project.TestType.Unit ? {
+			// 	"Inclstmtlines": oCoverage.Included.validLines,
+			// 	"Inclstmtcover": oCoverage.Included.lineRate,
+			// 	"Allstmtlines": oCoverage.All.validLines,
+			// 	"Allstmtcover": oCoverage.All.lineRate
+			// }:{}));
+
+			// if (sTestType == "UT") {
+			// 	oHana.post("UTSet", oContent);
+			// } else if (sTestType == "IT") {
+			// 	oHana.post("ITSet", oContent);
+			// }
+
 		}
 	});
-}).catch(function(sReason){
+}).catch(function(sReason) {
 	console.log("Save test kpi failed: " + sReason);
 });
 
@@ -139,22 +184,25 @@ var oJob = new Job({
 	workSpace: sWorkSpace
 });
 
-oProject.getProjectId().then(function(sProjectId){
+oProject.getProjectId().then(function(sProjectId) {
 	var sTestType = null;
-	(Object.keys(Project.TestType)).every(function(sTestTypeKey){
-		if(!!oProject.getTestReportPath(Project.TestType[sTestTypeKey])){
+	(Object.keys(Project.TestType)).every(function(sTestTypeKey) {
+		if (!!oProject.getTestReportPath(Project.TestType[sTestTypeKey])) {
 			sTestType = Project.TestType[sTestTypeKey];
 			return false;
 		}
 	});
-	if(!sTestType){
+	if (!sTestType) {
 		console.log("Cannot determine test type of the job.");
 		return;
 	}
 
 	var sJobName = oJob.getJobBaseName();
-	console.log("Job: " + sProjectId + ", " + sProjectType + ", " + sTestType + ", " + sJobName + ", " + oJob.getLastBuildNumber() );
-	var oDB = new DB({ name: "sccd" });
+
+	/*  MySQL DB  */
+	var oDB = new DB({
+		name: "sccd"
+	});
 	oDB.insertNewUpdateExistDBItem(true, {
 		table: "Job",
 		keys: {
@@ -167,13 +215,25 @@ oProject.getProjectId().then(function(sProjectId){
 			lastbuild: oJob.getLastBuildNumber()
 		}
 	});
-}).catch(function(sReason){
+
+	/*  Hana DB  */
+	// var oHana = new HanaDB();
+	// var oContent = {
+	// 	"ProjectId": sProjectId,
+	// 	"ProjectType": sProjectType,
+	// 	"TestType": sTestType,
+	// 	"Name": sJobName,
+	// 	"LastBuild": oJob.getLastBuildNumber()
+	// }
+	// oHana.post("JobSet", oContent);
+
+}).catch(function(sReason) {
 	console.log("Save job information failed: " + sReason);
 });
 
-if(!Argv.k && !Argv.keep){
+if (!Argv.k && !Argv.keep) {
 	// Job cleanup because of jenkins memory space limitation
-	if(sProjectType === Project.Type.FrontEnd){ //ABAP UT does not consume too much space. So we not do cleanup here. However daily job wil still cleanup its data
+	if (sProjectType === Project.Type.FrontEnd) { //ABAP UT does not consume too much space. So we not do cleanup here. However daily job wil still cleanup its data
 		oJob.deleteJobNoKeepFiles();
 	}
 	oJob.deleteUIArtifact();
