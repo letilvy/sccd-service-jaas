@@ -85,13 +85,13 @@ oProject.getProjectId().then(function(sProjectId) {
 	});
 
 	/*  Hana DB  */
-	// var oHana = new HanaDB();
-	// var oContent = {
-	// 	"ProjectId": sProjectId,
-	// 	"Type": sProjectType,
-	// 	"Name": sProjectName
-	// }
-	// oHana.post("ProjectSet", oContent);
+	var oHana = new HanaDB();
+	var oContent = {
+		"ProjectId": sProjectId,
+		"Type": sProjectType,
+		"Name": sProjectName
+	}
+	oHana.post("ProjectSet", oContent);
 
 }).catch(function(sReason) {
 	console.log("Save project information failed: " + sReason);
@@ -148,29 +148,29 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 			});
 
 			/*  Hana DB  */
-			// var oHana = new HanaDB();
-			// var oContent = Object.assign({
-			// 	"Guid": "",
-			// 	"ProjectId": sProjectId,
-			// 	"Type": sProjectType,
-			// 	"Branch": sBranch,
-			// 	"Passed": oKpi[sTestType].passed,
-			// 	"Failed": oKpi[sTestType].failed,
-			// 	"Skipped": oKpi[sTestType].skipped,
-			// 	"Assertion": oKpi[sTestType].assertion,
-			// 	"Timestamp": sTimestamp
-			// }, (sTestType === Project.TestType.Unit ? {
-			// 	"Inclstmtlines": oCoverage.Included.validLines,
-			// 	"Inclstmtcover": oCoverage.Included.lineRate,
-			// 	"Allstmtlines": oCoverage.All.validLines,
-			// 	"Allstmtcover": oCoverage.All.lineRate
-			// }:{}));
+			var oHana = new HanaDB();
+			var oContent = Object.assign({
+				"Guid": "",
+				"ProjectId": sProjectId,
+				"Type": sProjectType,
+				"Branch": sBranch,
+				"Passed": oKpi[sTestType].passed,
+				"Failed": oKpi[sTestType].failed,
+				"Skipped": oKpi[sTestType].skipped,
+				"Assertion": oKpi[sTestType].assertion,
+				"Timestamp": sTimestamp
+			}, (sTestType === Project.TestType.Unit ? {
+				"Inclstmtlines": oCoverage.Included.validLines,
+				"Inclstmtcover": oCoverage.Included.lineRate,
+				"Allstmtlines": oCoverage.All.validLines,
+				"Allstmtcover": oCoverage.All.lineRate
+			}:{}));
 
-			// if (sTestType == "UT") {
-			// 	oHana.post("UTSet", oContent);
-			// } else if (sTestType == "IT") {
-			// 	oHana.post("ITSet", oContent);
-			// }
+			if (sTestType == "UT") {
+				oHana.post("UTSet", oContent);
+			} else if (sTestType == "IT") {
+				oHana.post("ITSet", oContent);
+			}
 
 		}
 	});
@@ -217,15 +217,15 @@ oProject.getProjectId().then(function(sProjectId) {
 	});
 
 	/*  Hana DB  */
-	// var oHana = new HanaDB();
-	// var oContent = {
-	// 	"ProjectId": sProjectId,
-	// 	"ProjectType": sProjectType,
-	// 	"TestType": sTestType,
-	// 	"Name": sJobName,
-	// 	"LastBuild": oJob.getLastBuildNumber()
-	// }
-	// oHana.post("JobSet", oContent);
+	var oHana = new HanaDB();
+	var oContent = {
+		"ProjectId": sProjectId,
+		"ProjectType": sProjectType,
+		"TestType": sTestType,
+		"Name": sJobName,
+		"LastBuild": oJob.getLastBuildNumber()
+	}
+	oHana.post("JobSet", oContent);
 
 }).catch(function(sReason) {
 	console.log("Save job information failed: " + sReason);
