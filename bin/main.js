@@ -151,7 +151,6 @@ Promise.all([oProject.getProjectId(), oProject.getTestKpi(), oProject.getUTCover
 			/*  Hana DB  */
 			var oHana = new HanaDB();
 			var oContent = Object.assign({
-				"Guid": "",
 				"ProjectId": sProjectId,
 				"Type": sProjectType,
 				"Branch": sBranch,
